@@ -17,7 +17,6 @@ class SplashActivity  : AppCompatActivity()  {
             override fun run() {
                 val intent = Intent(this@SplashActivity,LoginActivity::class.java)
                 startActivity(intent)
-
                 finish()
             }
         }, 3000)
