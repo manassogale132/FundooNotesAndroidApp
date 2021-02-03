@@ -4,7 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_splash.*
 
 class SplashActivity  : AppCompatActivity()  {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,5 +22,7 @@ class SplashActivity  : AppCompatActivity()  {
             }
         }, 3000)
 
+        val animation = AnimationUtils.loadAnimation(this,R.anim.fade_in)
+        textview1.startAnimation(animation)
     }
 }
