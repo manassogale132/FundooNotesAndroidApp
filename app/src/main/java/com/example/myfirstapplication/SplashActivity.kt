@@ -13,15 +13,22 @@ class SplashActivity  : AppCompatActivity()  {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
+        navigateToLoginAfterDelay()
+        animateAppTextName()
+    }
+
+    private fun navigateToLoginAfterDelay() {
         Handler(Looper.getMainLooper()).postDelayed(object : Runnable {
             override fun run() {
-                val intent = Intent(this@SplashActivity,LoginActivity::class.java)
+                val intent = Intent(this@SplashActivity, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
             }
         }, 3000)
+    }
 
-        val animation = AnimationUtils.loadAnimation(this,R.anim.fade_in)
+    private fun animateAppTextName() {
+        val animation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
         textview1.startAnimation(animation)
     }
 }

@@ -15,13 +15,20 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        loginPageToRegisterPage()
+        showPasswordCheckBox()
+    }
+
+    private fun loginPageToRegisterPage() {
         registerUser.setOnClickListener {
             val intent = Intent(this, RegistrationActivity::class.java)
             Toast.makeText(this, "Register Page Opened!", Toast.LENGTH_SHORT).show()
             startActivity(intent)
             finish()
         }
-//---------------------------------------------------------------------------------------------------------------------------------------
+    }
+
+    private fun showPasswordCheckBox() {
         showPassword.setOnCheckedChangeListener { buttonView, isChecked ->
             if (!isChecked) {
                 password.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -29,7 +36,6 @@ class LoginActivity : AppCompatActivity() {
                 password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
             }
         }
-//---------------------------------------------------------------------------------------------------------------------------------------
     }
 }
 
