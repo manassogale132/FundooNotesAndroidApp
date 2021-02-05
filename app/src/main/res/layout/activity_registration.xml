@@ -28,7 +28,7 @@
 
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/passwordR"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -50,7 +50,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email"
+        app:layout_constraintTop_toBottomOf="@+id/emailR"
         app:layout_constraintVertical_bias="0.06"
         tools:ignore="TextFields" />
 
@@ -66,10 +66,10 @@
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/registerButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordR" />
 
     <EditText
-        android:id="@+id/email"
+        android:id="@+id/emailR"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -153,7 +153,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"
+        app:layout_constraintTop_toBottomOf="@+id/passwordR"
         app:layout_constraintVertical_bias="0.235" />
 
     <TextView
