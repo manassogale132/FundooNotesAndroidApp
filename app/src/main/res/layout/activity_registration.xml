@@ -12,7 +12,7 @@
         android:id="@+id/textview1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
+        android:fontFamily="@font/custon_font2"
         android:gravity="center_horizontal"
         android:text="Notes App"
         android:textColor="#FFFAFA"
