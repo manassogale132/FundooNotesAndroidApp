@@ -10,9 +10,17 @@ import kotlinx.android.synthetic.main.activity_welcome.*
 
 class WelcomeActivity  : AppCompatActivity()  {
 
+    private lateinit var  auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
+
+        auth = FirebaseAuth.getInstance()
+        val currentUser = auth.currentUser
+
+        emailTextView.text = currentUser?.email
+        nameTextView.text = currentUser?.displayName
 
         logOutbutton.setOnClickListener {
             logoutMethod()

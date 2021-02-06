@@ -113,16 +113,16 @@ class LoginActivity : AppCompatActivity() {
 //-------------------------------------------------------------------------------------------------------------------------
     private fun forgotPassword() {
 
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Forgot Password")
+        val dialogBox = AlertDialog.Builder(this)
+        dialogBox.setTitle("Forgot Password")
         val view = layoutInflater.inflate(R.layout.dialog_forgot_password,null)
         val username = view.findViewById<EditText>(R.id.enterEmail)
-        builder.setView(view)
-        builder.setPositiveButton("Reset", DialogInterface.OnClickListener { _, _ ->
+        dialogBox.setView(view)
+        dialogBox.setPositiveButton("Reset", DialogInterface.OnClickListener { _, _ ->
             forgot(username)
         })
-        builder.setNegativeButton("Close", DialogInterface.OnClickListener { _, _ -> })
-        builder.show()
+        dialogBox.setNegativeButton("Close", DialogInterface.OnClickListener { _, _ -> })
+        dialogBox.show()
     }
 
     private fun forgot(username : EditText) {
