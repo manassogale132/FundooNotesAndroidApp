@@ -26,6 +26,11 @@
             android:name=".RegistrationActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".WelcomeActivity"
+            android:screenOrientation="portrait" />
+
+
     </application>
 
 </manifest>

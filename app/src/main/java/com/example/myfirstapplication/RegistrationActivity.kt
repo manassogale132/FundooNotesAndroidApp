@@ -53,21 +53,28 @@ class RegistrationActivity : AppCompatActivity() {
     private fun signUpUserValidation() {               //validation and signup method
 
         if (fullName.text.toString().isEmpty()) {
-            fullName.error = "Please enter full name"
+            fullName.error = "Please enter Fullname"
             fullName.requestFocus()
             return
         }
+
+        if(fullName.text.toString().matches("[0-9*$%#&^()@!_+{}';]*".toRegex())) {
+            fullName.error = "Please enter proper Fullname"
+            fullName.requestFocus()
+            return
+        }
+
         if (emailR.text.toString().isEmpty()) {
-            emailR.error = "Please enter email"
+            emailR.error = "Please enter Email"
             return
         }
         if (!Patterns.EMAIL_ADDRESS.matcher(emailR.text.toString()).matches()) {
-            emailR.error = "Please enter valid email"
+            emailR.error = "Please enter Valid Email"
             emailR.requestFocus()
             return
         }
         if (passwordR.text.toString().isEmpty()) {
-            passwordR.error = "Please enter password"
+            passwordR.error = "Please enter Password"
             passwordR.requestFocus()
             return
         }
@@ -79,8 +86,9 @@ class RegistrationActivity : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(emailR.text.toString(), passwordR.text.toString())
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    startActivity(Intent(this,LoginActivity::class.java))
                     Toast.makeText(baseContext, "User Registered", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this,LoginActivity::class.java))
+                    finish()
                 } else {
                     Toast.makeText(baseContext, "Authentication failed. Try again", Toast.LENGTH_SHORT).show()
                 }
