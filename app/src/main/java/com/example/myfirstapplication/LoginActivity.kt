@@ -1,12 +1,15 @@
 package com.example.myfirstapplication
 
 import android.R.attr
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Patterns
+import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.tasks.OnCompleteListener
@@ -16,6 +19,7 @@ import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.showPassword
 import kotlinx.android.synthetic.main.activity_registration.*
+import kotlinx.android.synthetic.main.dialog_forgot_password.*
 
 
 class LoginActivity : AppCompatActivity() {
@@ -33,6 +37,10 @@ class LoginActivity : AppCompatActivity() {
 
         loginButton.setOnClickListener {
             loginUserValidation()
+        }
+
+        forgotPassword.setOnClickListener {
+            forgotPassword()
         }
     }
 
@@ -82,7 +90,7 @@ class LoginActivity : AppCompatActivity() {
                     val user: FirebaseUser? = auth.currentUser
                     updateUI(user)
                 } else {
-                    Toast.makeText(baseContext, "Wrong password entered", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(baseContext, "Wrong password entered.", Toast.LENGTH_SHORT).show()
                     updateUI(null)
                 }
             }
@@ -95,13 +103,44 @@ class LoginActivity : AppCompatActivity() {
         updateUI(currentUser)
     }
 
-    private fun updateUI(currentUser: FirebaseUser?){
+    private fun updateUI(currentUser: FirebaseUser?) {
         if(currentUser != null){
-            Toast.makeText(baseContext, "Login Successful ", Toast.LENGTH_SHORT).show()
+            Toast.makeText(baseContext, "Login Successful.", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this,WelcomeActivity::class.java))
             finish()
         }
     }
+//-------------------------------------------------------------------------------------------------------------------------
+    private fun forgotPassword() {
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Forgot Password")
+        val view = layoutInflater.inflate(R.layout.dialog_forgot_password,null)
+        val username = view.findViewById<EditText>(R.id.enterEmail)
+        builder.setView(view)
+        builder.setPositiveButton("Reset", DialogInterface.OnClickListener { _, _ ->
+            forgot(username)
+        })
+        builder.setNegativeButton("Close", DialogInterface.OnClickListener { _, _ -> })
+        builder.show()
+    }
+
+    private fun forgot(username : EditText) {
+        if (!Patterns.EMAIL_ADDRESS.matcher(username.text.toString()).matches()) {
+            return
+        }
+        if (username.text.toString().isEmpty()) {
+            return
+        }
+
+        auth.sendPasswordResetEmail(username.text.toString())
+            .addOnCompleteListener { task ->
+                if(task.isSuccessful) {
+                    Toast.makeText(this,"Email sent!",Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+//----------------------------------------------------------------------------------------------------------------------------------
 }
 
 
