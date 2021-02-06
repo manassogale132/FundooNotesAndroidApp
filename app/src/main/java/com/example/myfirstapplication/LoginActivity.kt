@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Patterns
+import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -83,6 +84,8 @@ class LoginActivity : AppCompatActivity() {
             password.setError("Password must be > 6 characters")
             return
         }
+
+        progressBar.visibility = View.VISIBLE
 
         auth.signInWithEmailAndPassword(email.text.toString(), password.text.toString())
             .addOnCompleteListener(this) { task ->

@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Patterns
+import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
@@ -82,6 +83,8 @@ class RegistrationActivity : AppCompatActivity() {
             passwordR.setError("Password must be > 6 characters")
             return
         }
+
+        progressBarR.visibility = View.VISIBLE
 
         auth.createUserWithEmailAndPassword(emailR.text.toString(), passwordR.text.toString())
             .addOnCompleteListener(this) { task ->
