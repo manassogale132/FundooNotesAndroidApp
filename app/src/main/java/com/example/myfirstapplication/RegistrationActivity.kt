@@ -90,7 +90,7 @@ class RegistrationActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(baseContext, "User Registered", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this,LoginActivity::class.java))
+                    //startActivity(Intent(this,LoginActivity::class.java))
                     finish()
                 } else {
                     Toast.makeText(baseContext, "Authentication failed. Try again", Toast.LENGTH_SHORT).show()

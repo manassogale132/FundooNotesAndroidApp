@@ -43,6 +43,8 @@ class LoginActivity : AppCompatActivity() {
         forgotPassword.setOnClickListener {
             forgotPassword()
         }
+        val currentUser:FirebaseUser? = auth.currentUser
+        updateUI(currentUser)
     }
 
     private fun loginPageToRegisterPage() {
@@ -50,7 +52,6 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, RegistrationActivity::class.java)
             Toast.makeText(this, "Register Page Opened!", Toast.LENGTH_SHORT).show()
             startActivity(intent)
-            finish()
         }
     }
 
@@ -102,8 +103,8 @@ class LoginActivity : AppCompatActivity() {
     public override fun onStart() {                //if user is already logged in then we get user details in 'currentUser' otherwise 'null'
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser:FirebaseUser? = auth.currentUser
-        updateUI(currentUser)
+        //val currentUser:FirebaseUser? = auth.currentUser
+        //updateUI(currentUser)
     }
 
     private fun updateUI(currentUser: FirebaseUser?) {
