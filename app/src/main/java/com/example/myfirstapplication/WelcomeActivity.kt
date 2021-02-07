@@ -25,16 +25,17 @@ class WelcomeActivity  : AppCompatActivity()  {
             logoutMethod()
         }
     }
-
+    //-------------------------------------------------------------------------------------------------------------------------
     private fun displayUserInformation(currentUser: FirebaseUser?) {
         emailTextView.text = currentUser?.email
         nameTextView.text = currentUser?.displayName
     }
-
+    //-------------------------------------------------------------------------------------------------------------------------
     fun logoutMethod() {
-        FirebaseAuth.getInstance().signOut();
+        auth.signOut();
         Toast.makeText(baseContext, "Logged out", Toast.LENGTH_SHORT).show()
         startActivity(Intent(this,LoginActivity::class.java))
         finish()
     }
+    //-------------------------------------------------------------------------------------------------------------------------
 }

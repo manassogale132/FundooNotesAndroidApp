@@ -13,9 +13,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/custon_font2"
+        android:gravity="center_horizontal"
         android:text="Notes App"
         android:textColor="#FFFAFA"
-        android:gravity="center_horizontal"
         android:textColorHighlight="#000000"
         android:textSize="40sp"
         android:textStyle="bold"
@@ -37,8 +37,9 @@
         android:layout_marginRight="32dp"
         android:autofillHints=""
         android:background="@color/white"
-        android:ems="10"
+        android:drawableLeft="@drawable/ic_key"
         android:drawablePadding="12dp"
+        android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
         android:padding="15dp"
@@ -51,8 +52,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email"
         app:layout_constraintVertical_bias="0.045"
-        tools:ignore="TextFields"
-        android:drawableLeft="@drawable/ic_key" />
+        tools:ignore="TextFields" />
 
     <CheckBox
         android:id="@+id/showPassword"
@@ -60,14 +60,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
         android:layout_marginLeft="44dp"
-        android:text="Show Password"
         android:paddingLeft="5dp"
-        android:textSize="16dp"
+        android:text="Show Password"
         android:textColor="@color/white"
+        android:textSize="16dp"
         app:layout_constraintBottom_toTopOf="@+id/loginButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"
-         />
+        app:layout_constraintTop_toBottomOf="@+id/password" />
 
     <EditText
         android:id="@+id/email"
@@ -79,6 +78,7 @@
         android:layout_marginRight="32dp"
         android:autofillHints=""
         android:background="@color/white"
+        android:drawableLeft="@drawable/ic_email"
         android:drawablePadding="12dp"
         android:ems="10"
         android:hint="Email"
@@ -93,8 +93,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textview2"
         app:layout_constraintVertical_bias="0.041"
-        tools:ignore="TextFields"
-        android:drawableLeft="@drawable/ic_email" />
+        tools:ignore="TextFields" />
 
 
     <TextView
@@ -140,8 +139,8 @@
         android:gravity="center_horizontal"
         android:text="New? Register here"
         android:textColor="@color/white"
-        android:textStyle="bold"
         android:textSize="17dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -153,11 +152,11 @@
         android:id="@+id/forgotPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:text="Forgot Password?"
         android:textColor="@color/white"
         android:textSize="17dp"
         android:textStyle="bold"
-        android:gravity="center_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -173,9 +172,21 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/forgotPassword"
-        app:layout_constraintVertical_bias="0.504" />
+        app:layout_constraintVertical_bias="0.239" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar"
+        app:layout_constraintVertical_bias="0.0"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
