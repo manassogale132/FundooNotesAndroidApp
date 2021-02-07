@@ -24,23 +24,13 @@ class RegistrationActivity : AppCompatActivity() {
         setContentView(R.layout.activity_registration)
         auth = FirebaseAuth.getInstance()              //initialize auth object inside onCreate()
 
-        registerPageToLoginPage()
         showPasswordCheckBox()
 
         registerButton.setOnClickListener {
             signUpUserValidation()
         }
     }
-
-    private fun registerPageToLoginPage() {
-        alreadyUser.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            Toast.makeText(this, "Login Page Opened!", Toast.LENGTH_SHORT).show()
-            startActivity(intent)
-            finish()
-        }
-    }
-
+    //-------------------------------------------------------------------------------------------------------------------------
     private fun showPasswordCheckBox() {
         showPassword.setOnCheckedChangeListener { buttonView, isChecked ->
             if (!isChecked) {
@@ -50,7 +40,7 @@ class RegistrationActivity : AppCompatActivity() {
             }
         }
     }
-
+    //-------------------------------------------------------------------------------------------------------------------------
     private fun signUpUserValidation() {               //validation and signup method
 
         if (fullName.text.toString().isEmpty()) {
@@ -90,11 +80,12 @@ class RegistrationActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(baseContext, "User Registered", Toast.LENGTH_SHORT).show()
-                    //startActivity(Intent(this,LoginActivity::class.java))
                     finish()
                 } else {
                     Toast.makeText(baseContext, "Authentication failed. Try again", Toast.LENGTH_SHORT).show()
+                    progressBarR.visibility = View.INVISIBLE
                 }
             }
     }
+    //-------------------------------------------------------------------------------------------------------------------------
 }

@@ -46,7 +46,7 @@ class LoginActivity : AppCompatActivity() {
         val currentUser:FirebaseUser? = auth.currentUser
         updateUI(currentUser)
     }
-
+    //-------------------------------------------------------------------------------------------------------------------------
     private fun loginPageToRegisterPage() {
         registerUser.setOnClickListener {
             val intent = Intent(this, RegistrationActivity::class.java)
@@ -54,7 +54,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-
+    //-------------------------------------------------------------------------------------------------------------------------
     private fun showPasswordCheckBox() {
         showPassword.setOnCheckedChangeListener { buttonView, isChecked ->
             if (!isChecked) {
@@ -64,7 +64,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
-
+    //-------------------------------------------------------------------------------------------------------------------------
     private fun loginUserValidation(){
 
         if (email.text.toString().isEmpty()) {
@@ -82,17 +82,16 @@ class LoginActivity : AppCompatActivity() {
             return
         }
         if (password.length() < 6) {
-            password.setError("Password must be > 6 characters")
+            password.error = "Password must be > 6 characters"
             return
         }
-
-        progressBar.visibility = View.VISIBLE
 
         auth.signInWithEmailAndPassword(email.text.toString(), password.text.toString())
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val user: FirebaseUser? = auth.currentUser
                     updateUI(user)
+                    progressBar.visibility = View.VISIBLE
                 } else {
                     Toast.makeText(baseContext, "Wrong password entered.", Toast.LENGTH_SHORT).show()
                     updateUI(null)
@@ -114,7 +113,7 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
     }
-//-------------------------------------------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------------------------------------------
     private fun forgotPassword() {
 
         val dialogBox = AlertDialog.Builder(this)
@@ -144,7 +143,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
     }
-//----------------------------------------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------------------------------
 }
 
 
