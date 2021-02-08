@@ -108,7 +108,7 @@ class LoginActivity : AppCompatActivity() {
                     updateUI(user)
                     progressBar.visibility = View.VISIBLE
                 } else {
-                    Toast.makeText(baseContext, "Wrong password entered.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(baseContext, "Wrong email or password.", Toast.LENGTH_SHORT).show()
                     updateUI(null)
                 }
             }
@@ -124,7 +124,7 @@ class LoginActivity : AppCompatActivity() {
     private fun updateUI(currentUser: FirebaseUser?) {
         if(currentUser != null){
             Toast.makeText(baseContext, "Login Successful.", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(this,WelcomeActivity::class.java))
+            startActivity(Intent(this,DashboardActivity::class.java))
             finish()
         }
     }
@@ -194,7 +194,7 @@ class LoginActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("SignInActivity", "signInWithCredential:success")
                     val user = auth.currentUser
-                    val intent = Intent(this,WelcomeActivity::class.java)
+                    val intent = Intent(this,DashboardActivity::class.java)
                     startActivity(intent)
                     finish()
                 } else {

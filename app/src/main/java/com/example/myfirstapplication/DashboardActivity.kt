@@ -7,15 +7,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import kotlinx.android.synthetic.main.activity_welcome.*
+import kotlinx.android.synthetic.main.activity_dashboard.*
 
-class WelcomeActivity  : AppCompatActivity()  {
+class DashboardActivity  : AppCompatActivity()  {
 
     private lateinit var  auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_welcome)
+        setContentView(R.layout.activity_dashboard)
         auth = FirebaseAuth.getInstance()
         val currentUser = auth.currentUser
 
