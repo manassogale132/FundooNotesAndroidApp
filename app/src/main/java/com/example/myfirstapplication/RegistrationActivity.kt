@@ -10,6 +10,8 @@ import android.util.Patterns
 import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_registration.*
 import kotlinx.android.synthetic.main.activity_registration.passwordR
@@ -18,11 +20,16 @@ import kotlinx.android.synthetic.main.activity_registration.showPassword
 class RegistrationActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth            //global variable - object of FirebaseAuth
+    var databaseReference : DatabaseReference? = null
+    var database : FirebaseDatabase? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
+
         auth = FirebaseAuth.getInstance()              //initialize auth object inside onCreate()
+        database = FirebaseDatabase.getInstance()
+        databaseReference= database?.reference!!.child("profile")
 
         showPasswordCheckBox()
 
@@ -79,6 +86,11 @@ class RegistrationActivity : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(emailR.text.toString(), passwordR.text.toString())
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+                    val currentUser = auth.currentUser
+                    val currentUserDb = databaseReference?.child((currentUser?.uid!!))
+                    currentUserDb?.child("fullname")?.setValue(fullName.text.toString())
+                    currentUserDb?.child("email")?.setValue(emailR.text.toString())
+
                     Toast.makeText(baseContext, "User Registered", Toast.LENGTH_SHORT).show()
                     finish()
                 } else {

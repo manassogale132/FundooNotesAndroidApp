@@ -76,7 +76,7 @@ class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemS
     }
     //-----------------------------------------------------------------------------------------------------------------
      private fun displayUserInformation(currentUser: FirebaseUser?){
-         val navigationView : NavigationView = findViewById(R.id.nav_view)
+        val navigationView : NavigationView = findViewById(R.id.nav_view)
         val headerView : View = navigationView.getHeaderView(0)
         var headerName : TextView = headerView.findViewById(R.id.navHeaderName)
         var headerEmail : TextView = headerView.findViewById(R.id.navHeaderEmail)
