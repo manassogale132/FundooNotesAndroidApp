@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="200dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background_image"
     android:gravity="bottom"
     android:orientation="vertical"
@@ -9,9 +10,12 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher_round" />
+        android:id="@+id/navHeaderPhoto"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:paddingTop="8dp"
+        android:scaleType="centerCrop"
+        app:srcCompat="@mipmap/ic_launcher_round"/>
 
     <TextView
         android:id="@+id/navHeaderName"
@@ -27,5 +31,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="17dp"
-        android:text="username@gmail.com" />
+        android:text="username@gmail.com"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 </LinearLayout>

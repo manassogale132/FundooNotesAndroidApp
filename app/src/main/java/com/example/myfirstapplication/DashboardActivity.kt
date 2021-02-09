@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -12,6 +13,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.widget.ToolbarWidgetWrapper
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -78,9 +80,14 @@ class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemS
         val headerView : View = navigationView.getHeaderView(0)
         var headerName : TextView = headerView.findViewById(R.id.navHeaderName)
         var headerEmail : TextView = headerView.findViewById(R.id.navHeaderEmail)
+        var headerPhoto : ImageView = headerView.findViewById(R.id.navHeaderPhoto)
 
          headerName.text = currentUser?.displayName
          headerEmail.text = currentUser?.email
+
+        if (currentUser != null) {
+            Glide.with(this).load(currentUser.photoUrl).into(headerPhoto)
+        }
     }
     //-----------------------------------------------------------------------------------------------------------------
     private fun customToolBarFunction(){
