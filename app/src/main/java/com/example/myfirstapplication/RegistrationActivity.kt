@@ -29,7 +29,6 @@ class RegistrationActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()              //initialize auth object inside onCreate()
         database = FirebaseDatabase.getInstance()
-        databaseReference= database?.reference!!.child("profile")
 
         showPasswordCheckBox()
 
@@ -87,9 +86,14 @@ class RegistrationActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val currentUser = auth.currentUser
+                    databaseReference= database?.reference!!.child("user profiles")
                     val currentUserDb = databaseReference?.child((currentUser?.uid!!))
-                    currentUserDb?.child("fullname")?.setValue(fullName.text.toString())
-                    currentUserDb?.child("email")?.setValue(emailR.text.toString())
+
+                    var fullname = fullName.editableText.toString()
+                    var email = emailR.editableText.toString()
+
+                    var users = Users(fullname , email)
+                    currentUserDb?.setValue(users)
 
                     Toast.makeText(baseContext, "User Registered", Toast.LENGTH_SHORT).show()
                     finish()
