@@ -1,18 +1,17 @@
-package com.example.myfirstapplication
+package com.example.myfirstapplication.Activities
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.TextUtils
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
+import com.example.myfirstapplication.R
+import com.example.myfirstapplication.UserData.Users
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_registration.*
 import kotlinx.android.synthetic.main.activity_registration.passwordR
 import kotlinx.android.synthetic.main.activity_registration.showPassword
@@ -89,10 +88,13 @@ class RegistrationActivity : AppCompatActivity() {
                     databaseReference= database?.reference!!.child("user profiles")
                     val currentUserDb = databaseReference?.child((currentUser?.uid!!))
 
-                    var fullname = fullName.editableText.toString()
-                    var email = emailR.editableText.toString()
+                    val fullname = fullName.editableText.toString()
+                    val email = emailR.editableText.toString()
 
-                    var users = Users(fullname , email)
+                    val users = Users(
+                        fullname,
+                        email
+                    )
                     currentUserDb?.setValue(users)
 
                     Toast.makeText(baseContext, "User Registered", Toast.LENGTH_SHORT).show()

@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.animation.AnimationUtils
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myfirstapplication.Activities.LoginActivity
 import kotlinx.android.synthetic.main.activity_splash.*
 
 class SplashActivity  : AppCompatActivity()  {

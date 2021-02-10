@@ -1,4 +1,4 @@
-package com.example.myfirstapplication
+package com.example.myfirstapplication.Activities
 
 import android.content.DialogInterface
 import android.content.Intent
@@ -12,6 +12,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myfirstapplication.R
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -124,7 +125,8 @@ class LoginActivity : AppCompatActivity() {
     private fun updateUI(currentUser: FirebaseUser?) {
         if(currentUser != null){
             Toast.makeText(baseContext, "Login Successful.", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(this,DashboardActivity::class.java))
+            startActivity(Intent(this,
+                DashboardActivity::class.java))
             finish()
         }
     }
@@ -161,7 +163,9 @@ class LoginActivity : AppCompatActivity() {
     //----------------------------------------------------------------------------------------------------------------------------------
     private fun signIn() {
         val signInIntent = googleSignInClient.signInIntent
-        startActivityForResult(signInIntent, RC_SIGN_IN)
+        startActivityForResult(signInIntent,
+            RC_SIGN_IN
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -195,7 +199,8 @@ class LoginActivity : AppCompatActivity() {
                     Log.d("SignInActivity", "signInWithCredential:success")
                     val user = auth.currentUser
                     Toast.makeText(baseContext, "Login Successful.", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this,DashboardActivity::class.java)
+                    val intent = Intent(this,
+                        DashboardActivity::class.java)
                     startActivity(intent)
                     finish()
                 } else {
