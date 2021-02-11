@@ -93,7 +93,7 @@ class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemS
          headerEmail.text = currentUser?.email
 
         if (currentUser != null) {
-            Glide.with(this).load(currentUser.photoUrl).into(headerPhoto)
+            Glide.with(this).load(currentUser.photoUrl).error(R.drawable.default_user_image).into(headerPhoto)
         }
     }
     //-----------------------------------------------------------------------------------------------------------------

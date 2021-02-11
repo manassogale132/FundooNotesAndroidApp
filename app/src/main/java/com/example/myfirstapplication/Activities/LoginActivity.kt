@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myfirstapplication.R
+import com.example.myfirstapplication.UserData.Users
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -20,7 +21,12 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_login.showPassword
+import kotlinx.android.synthetic.main.activity_registration.*
+import javax.security.auth.login.LoginException
 
 
 class LoginActivity : AppCompatActivity() {
@@ -32,11 +38,15 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
 
+    var databaseReference : DatabaseReference? = null
+    var database : FirebaseDatabase? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
         auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance()
 
         loginPageToRegisterPage()
         showPasswordCheckBox()
@@ -197,7 +207,17 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("SignInActivity", "signInWithCredential:success")
-                    val user = auth.currentUser
+
+                    val currentUser = auth.currentUser
+                    databaseReference= database?.reference!!.child("user profiles")
+                    val currentUserDb = databaseReference?.child((currentUser?.uid!!))
+
+                    val fullname = currentUser?.displayName.toString()
+                    val email = currentUser?.email.toString()
+
+                    val users = Users(fullname, email)
+                    currentUserDb?.setValue(users)
+
                     Toast.makeText(baseContext, "Login Successful.", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this,
                         DashboardActivity::class.java)
@@ -205,7 +225,6 @@ class LoginActivity : AppCompatActivity() {
                     finish()
                 } else {
                     // If sign in fails, display a message to the user.
-                    Log.w("SignInActivity", "signInWithCredential:failure", task.exception)
                 }
             }
     }

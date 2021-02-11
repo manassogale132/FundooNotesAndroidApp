@@ -84,6 +84,7 @@ class RegistrationActivity : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(emailR.text.toString(), passwordR.text.toString())
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+
                     val currentUser = auth.currentUser
                     databaseReference= database?.reference!!.child("user profiles")
                     val currentUserDb = databaseReference?.child((currentUser?.uid!!))
@@ -91,10 +92,7 @@ class RegistrationActivity : AppCompatActivity() {
                     val fullname = fullName.editableText.toString()
                     val email = emailR.editableText.toString()
 
-                    val users = Users(
-                        fullname,
-                        email
-                    )
+                    val users = Users(fullname, email)
                     currentUserDb?.setValue(users)
 
                     Toast.makeText(baseContext, "User Registered", Toast.LENGTH_SHORT).show()
