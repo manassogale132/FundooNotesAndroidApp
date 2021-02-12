@@ -13,6 +13,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.bumptech.glide.Glide
+import com.example.myfirstapplication.Fragments.AddNoteFragment
 import com.example.myfirstapplication.Fragments.NotesFragment
 import com.example.myfirstapplication.Fragments.ProfileFragment
 import com.example.myfirstapplication.R
@@ -63,6 +64,12 @@ class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemS
                     ProfileFragment()
                 ).commit()
             }
+            R.id.nav_addNote -> {
+                //placing our fragment in fragment container frame layout
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container,
+                    AddNoteFragment()
+                ).commit()
+            }
             R.id.nav_logout -> {
                 auth.signOut()
                 Toast.makeText(baseContext,"Logged Out",Toast.LENGTH_SHORT).show()
@@ -87,14 +94,9 @@ class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemS
         val headerView : View = navigationView.getHeaderView(0)
         var headerName : TextView = headerView.findViewById(R.id.navHeaderName)
         var headerEmail : TextView = headerView.findViewById(R.id.navHeaderEmail)
-        var headerPhoto : ImageView = headerView.findViewById(R.id.navHeaderPhoto)
 
          headerName.text = currentUser?.displayName
          headerEmail.text = currentUser?.email
-
-        if (currentUser != null) {
-            Glide.with(this).load(currentUser.photoUrl).error(R.drawable.default_user_image).into(headerPhoto)
-        }
     }
     //-----------------------------------------------------------------------------------------------------------------
     private fun customToolBarFunction(){

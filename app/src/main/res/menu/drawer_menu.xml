@@ -8,6 +8,10 @@
             android:icon="@drawable/ic_notes"
             android:title="Notes"/>
 
+        <item android:id="@+id/nav_addNote"
+            android:icon="@drawable/ic_baseline_note_add_24"
+            android:title="Add Note"/>
+
         <item android:id="@+id/nav_profile"
             android:icon="@drawable/ic_person"
             android:title="Profile"/>

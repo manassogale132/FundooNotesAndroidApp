@@ -47,7 +47,6 @@ class ProfileFragment : Fragment() {
                     Glide.with(this@ProfileFragment).load(currentUser?.photoUrl).error(R.drawable.default_user_image).into(imageView)
                     fullNameTextViewCustom.text = snapshot.child("fullname").value.toString()
                     emailTextViewCuston.text = snapshot.child("email").value.toString()
-                    uid.text = currentUser?.uid
                 }
             }
 
