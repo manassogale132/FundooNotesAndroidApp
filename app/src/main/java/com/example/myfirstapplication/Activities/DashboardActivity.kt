@@ -97,6 +97,7 @@ class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemS
         }
         else if(!viewIsAtHome) {
             displayView(R.id.nav_notes)
+            navigationView.setCheckedItem(R.id.nav_notes)
         }else{
             moveTaskToBack(true)
         }
