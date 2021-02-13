@@ -26,6 +26,7 @@ class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemS
 
     private lateinit var drawer: DrawerLayout
     private lateinit var auth: FirebaseAuth
+    private  var viewIsAtHome : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,28 +48,32 @@ class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemS
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, NotesFragment()).commit()
             navigationView.setCheckedItem(R.id.nav_notes)
+            displayView(R.id.nav_notes)
         }
     }
-    //-----------------------------------------------------------------------------------------------------------------
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {   //in drawer menu options attaching fragments to corresponding menus
-        when(item.itemId) {
+    //---------------------------------------------------------------------------------------------------------------
+    fun displayView(viewId : Int){                                //in drawer menu options attaching fragments to corresponding menus
+        when(viewId) {
             R.id.nav_notes -> {
                 //placing our fragment in fragment container frame layout
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container,
                     NotesFragment()
                 ).commit()
+                viewIsAtHome = true
             }
             R.id.nav_profile -> {
                 //placing our fragment in fragment container frame layout
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container,
                     ProfileFragment()
                 ).commit()
+                viewIsAtHome = false
             }
             R.id.nav_addNote -> {
                 //placing our fragment in fragment container frame layout
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container,
                     AddNoteFragment()
                 ).commit()
+                viewIsAtHome = false
             }
             R.id.nav_logout -> {
                 auth.signOut()
@@ -78,14 +83,22 @@ class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemS
             }
         }
         drawer.closeDrawer(GravityCompat.START)
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {   //passing displayView method to onNavigationItemSelected
+        displayView(item.itemId)
         return true
     }
     //-----------------------------------------------------------------------------------------------------------------
     override fun onBackPressed() {                       //this will close the drawer if its open without directly closing app
+        val navigationView : NavigationView = findViewById(R.id.nav_view)
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
+        }
+        else if(!viewIsAtHome) {
+            displayView(R.id.nav_notes)
+        }else{
+            moveTaskToBack(true)
         }
     }
     //-----------------------------------------------------------------------------------------------------------------
