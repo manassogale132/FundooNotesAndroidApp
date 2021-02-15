@@ -44,7 +44,7 @@ class ProfileFragment : Fragment() {
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(currentUser != null) {
-                    Glide.with(this@ProfileFragment).load(currentUser?.photoUrl).error(R.drawable.default_user_image).into(imageView)
+                    Glide.with(this@ProfileFragment).load(currentUser?.photoUrl).error(R.drawable.default_user_image).into(profileImageView)
                     fullNameTextViewCustom.text = snapshot.child("fullname").value.toString()
                     emailTextViewCuston.text = snapshot.child("email").value.toString()
                 }

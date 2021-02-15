@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,13 +18,15 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="495dp">
 
-            <ImageView
-                android:id="@+id/imageView"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profileImageView"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:src="@drawable/default_user_image"
+                app:civ_border_color="#000000"
+                app:civ_border_width="1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
@@ -38,17 +39,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="296dp"
+                android:fontFamily="@font/custon_font2"
                 android:text="Full Name"
                 android:textColor="@color/black"
-                android:textSize="20dp"
-                android:fontFamily="@font/custon_font2"
+                android:textSize="25dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/fullNameTextViewCustom"
@@ -58,7 +57,7 @@
                 android:gravity="center_horizontal"
                 android:text="Full Name"
                 android:textColor="@color/black"
-                android:textSize="18dp"
+                android:textSize="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -71,11 +70,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:fontFamily="@font/custon_font2"
                 android:text="Email Address"
                 android:textColor="@color/black"
-                android:textSize="20dp"
+                android:textSize="25dp"
                 android:textStyle="bold"
-                android:fontFamily="@font/custon_font2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -91,7 +90,7 @@
                 android:gravity="center_horizontal"
                 android:text="Email"
                 android:textColor="@color/black"
-                android:textSize="18dp"
+                android:textSize="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"

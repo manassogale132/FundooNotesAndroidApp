@@ -37,18 +37,28 @@ class AddNoteFragment : Fragment()  {
     }
     //------------------------------------------------------------------------------------------------------------------
     private fun addAndUpdateNotesToDataBase(){
-        val currentUser = auth.currentUser
-        databaseReference= database?.reference!!.child("notes collection")
-        val currentUserDb = databaseReference?.child((currentUser?.uid!!))
+        if(validationCheck()) {
+            val currentUser = auth.currentUser
+            databaseReference = database?.reference!!.child("notes collection")
+            val currentUserDb = databaseReference?.child((currentUser?.uid!!))
 
 
-        val title = editTextTitle.editableText.toString()
-        val description = editTextDescription.editableText.toString()
+            val title = editTextTitle.editableText.toString()
+            val description = editTextDescription.editableText.toString()
 
-        val notes = Notes(title, description)
-        currentUserDb?.child("Note = ${title}")?.setValue(notes)
+            val notes = Notes(title, description)
+            currentUserDb?.child("Note = ${title}")?.setValue(notes)
 
-        Toast.makeText(activity, "Note save to database!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, "Note save to database!", Toast.LENGTH_SHORT).show();
+        }
     }
     //------------------------------------------------------------------------------------------------------------------
+    fun validationCheck() : Boolean {                //entry validation check method
+        var a = true
+        if(editTextTitle.text.toString().trim().isEmpty()){
+            editTextTitle.error = "Please enter title"
+            a = false
+        }
+        return a
+    }
 }
