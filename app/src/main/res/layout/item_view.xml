@@ -8,7 +8,7 @@
     app:cardBackgroundColor="#d9d9d9"
     app:cardCornerRadius="5dp"
     app:cardElevation="5dp"
-    app:contentPadding="4dp">
+    app:contentPadding="1dp">
 
 
     <LinearLayout
@@ -19,10 +19,9 @@
 
         <TextView
             android:id="@+id/textViewTitleItem"
-            style="@style/TextAppearance.AppCompat.Headline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="28dp"
+            android:textSize="25dp"
             android:textColor="@color/black"
             android:text="Title" />
 

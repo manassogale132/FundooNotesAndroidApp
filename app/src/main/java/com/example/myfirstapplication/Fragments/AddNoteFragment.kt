@@ -38,16 +38,16 @@ class AddNoteFragment : Fragment()  {
     //------------------------------------------------------------------------------------------------------------------
     private fun addAndUpdateNotesToDataBase(){
         if(validationCheck()) {
-            val currentUser = auth.currentUser
             databaseReference = database?.reference!!.child("notes collection")
-            val currentUserDb = databaseReference?.child((currentUser?.uid!!))
+            val currentUserDb = databaseReference?.push()
 
 
+            val userId = auth.currentUser?.uid
             val title = editTextTitle.editableText.toString()
             val description = editTextDescription.editableText.toString()
 
-            val notes = Notes(title, description)
-            currentUserDb?.child(title)?.setValue(notes)
+            val notes = Notes(userId,title, description)
+            currentUserDb?.setValue(notes)
 
             Toast.makeText(activity, "Note save to database!", Toast.LENGTH_SHORT).show();
         }
