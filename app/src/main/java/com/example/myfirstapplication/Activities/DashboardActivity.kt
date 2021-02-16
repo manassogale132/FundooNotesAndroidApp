@@ -21,6 +21,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_dashboard.*
+import kotlinx.android.synthetic.main.fragment_profile.*
 
 class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListener {
 
@@ -106,11 +107,11 @@ class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemS
      private fun displayUserInformation(currentUser: FirebaseUser?){
         val navigationView : NavigationView = findViewById(R.id.nav_view)
         val headerView : View = navigationView.getHeaderView(0)
-        var headerName : TextView = headerView.findViewById(R.id.navHeaderName)
         var headerEmail : TextView = headerView.findViewById(R.id.navHeaderEmail)
+        var headerImage : ImageView = headerView.findViewById(R.id.imageView)
 
-         headerName.text = currentUser?.displayName
-         headerEmail.text = currentUser?.email
+        Glide.with(this).load(currentUser?.photoUrl).error(R.drawable.default_user_image).into(headerImage)
+        headerEmail.text = currentUser?.email
     }
     //-----------------------------------------------------------------------------------------------------------------
     private fun customToolBarFunction(){

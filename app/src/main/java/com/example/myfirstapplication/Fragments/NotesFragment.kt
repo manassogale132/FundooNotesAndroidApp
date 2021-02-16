@@ -11,28 +11,29 @@ import com.example.myfirstapplication.MyAdapter.MyAdapter
 import com.example.myfirstapplication.R
 import com.example.myfirstapplication.UserData.Notes
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
 
 class NotesFragment : Fragment()  {
 
-    lateinit var myNoteList : RecyclerView
+    lateinit var recyclerViewList : RecyclerView
+    lateinit var myAdapter: MyAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_notes,container,false)
+        val view :View = inflater.inflate(R.layout.fragment_notes,container,false)
 
-        myNoteList = view.findViewById(R.id.recyclerViewList)
-        myNoteList.layoutManager = LinearLayoutManager(context)
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        recyclerViewList = view.findViewById(R.id.recyclerViewList)
+        recyclerViewList.layoutManager = LinearLayoutManager(context)
 
         val options: FirebaseRecyclerOptions<Notes> = FirebaseRecyclerOptions.Builder<Notes>()
             .setQuery(FirebaseDatabase.getInstance().reference.child("notes collection"), Notes::class.java)
             .build()
 
-        myNoteList.adapter = MyAdapter(options)
+        myAdapter = MyAdapter(options)
+        myAdapter.startListening()
+        myAdapter.notifyDataSetChanged()
+        recyclerViewList.adapter = myAdapter
+        return view
     }
 }

@@ -47,7 +47,7 @@ class AddNoteFragment : Fragment()  {
             val description = editTextDescription.editableText.toString()
 
             val notes = Notes(title, description)
-            currentUserDb?.child("Note = ${title}")?.setValue(notes)
+            currentUserDb?.child(title)?.setValue(notes)
 
             Toast.makeText(activity, "Note save to database!", Toast.LENGTH_SHORT).show();
         }

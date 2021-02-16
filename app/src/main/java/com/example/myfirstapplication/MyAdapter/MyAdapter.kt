@@ -10,7 +10,7 @@ import com.example.myfirstapplication.UserData.Notes
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 
-class MyAdapter(options: FirebaseRecyclerOptions<Notes>) : FirebaseRecyclerAdapter<Notes, MyViewHolder>(options) {
+class MyAdapter(options: FirebaseRecyclerOptions<Notes>) : FirebaseRecyclerAdapter<Notes, MyAdapter.MyViewHolder>(options) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -22,9 +22,10 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>) : FirebaseRecyclerAdapt
         holder.textTitle.text = notes.title
         holder.textDescription.text = notes.description
     }
+
+    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+        var textTitle : TextView = itemView.findViewById(R.id.textViewTitleItem)
+        var textDescription : TextView = itemView.findViewById(R.id.textViewDescriptionItem)
+    }
 }
 
-class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-    var textTitle = itemView.findViewById<TextView>(R.id.textViewTitleItem)
-    var textDescription = itemView.findViewById<TextView>(R.id.textViewDescriptionItem)
-}
