@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -51,8 +52,8 @@ class NotesFragment : Fragment()  {
         super.onViewCreated(view, savedInstanceState)
 
         swipeRightToDeleteItemFromRecyclerView()
-        linearRecyclerViewLayout()
-        grideRecyclerViewLayout()
+        addClickToGridButton()
+        addClickToLinearListButton()
     }
     //------------------------------------------------------------------------------------------------------------------
     private fun swipeRightToDeleteItemFromRecyclerView(){
@@ -63,17 +64,18 @@ class NotesFragment : Fragment()  {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 myAdapter.deleteItem(viewHolder.adapterPosition)
+                Toast.makeText(activity, "Note deleted from database!", Toast.LENGTH_SHORT).show()
             }
         }).attachToRecyclerView(recyclerViewList)
     }
     //------------------------------------------------------------------------------------------------------------------
-    private fun linearRecyclerViewLayout(){
+    private fun addClickToGridButton(){
         floatingBtnToGrid.setOnClickListener {
             recyclerViewList.layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
         }
     }
     //------------------------------------------------------------------------------------------------------------------
-    private fun grideRecyclerViewLayout(){
+    private fun addClickToLinearListButton(){
         floatingBtnToGrid.setOnLongClickListener {
             recyclerViewList.layoutManager = LinearLayoutManager(context)
             return@setOnLongClickListener true

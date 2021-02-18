@@ -3,7 +3,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -18,6 +19,7 @@
         android:id="@+id/floatingBtnToGrid"
         android:src="@drawable/ic_baseline_grid_view_24"
         android:layout_height="wrap_content"
+        app:tint="@color/white"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"

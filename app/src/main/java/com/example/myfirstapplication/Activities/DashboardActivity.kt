@@ -100,7 +100,7 @@ class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemS
             displayView(R.id.nav_notes)
             navigationView.setCheckedItem(R.id.nav_notes)
         }else{
-            moveTaskToBack(true)
+            super.onBackPressed()
         }
     }
     //-----------------------------------------------------------------------------------------------------------------
