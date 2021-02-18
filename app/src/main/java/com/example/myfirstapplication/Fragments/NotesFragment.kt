@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -12,7 +13,6 @@ import com.example.myfirstapplication.MyAdapter.MyAdapter
 import com.example.myfirstapplication.R
 import com.example.myfirstapplication.UserData.Notes
 import com.firebase.ui.database.FirebaseRecyclerOptions
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_notes.*
 
@@ -46,17 +46,38 @@ class NotesFragment : Fragment()  {
         super.onStop()
         myAdapter.stopListening()
     }
-
+    //------------------------------------------------------------------------------------------------------------------
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        swipeRightToDeleteItemFromRecyclerView()
+        linearRecyclerViewLayout()
+        grideRecyclerViewLayout()
+    }
+    //------------------------------------------------------------------------------------------------------------------
+    private fun swipeRightToDeleteItemFromRecyclerView(){
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT ){
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                myAdapter.deleteItem(viewHolder.adapterPosition)
+            }
+        }).attachToRecyclerView(recyclerViewList)
+    }
+    //------------------------------------------------------------------------------------------------------------------
+    private fun linearRecyclerViewLayout(){
         floatingBtnToGrid.setOnClickListener {
             recyclerViewList.layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
         }
-
+    }
+    //------------------------------------------------------------------------------------------------------------------
+    private fun grideRecyclerViewLayout(){
         floatingBtnToGrid.setOnLongClickListener {
             recyclerViewList.layoutManager = LinearLayoutManager(context)
             return@setOnLongClickListener true
         }
     }
+    //------------------------------------------------------------------------------------------------------------------
 }

@@ -23,6 +23,10 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>) : FirebaseRecyclerAdapt
         holder.textDescription.text = notes.description
     }
 
+    public fun deleteItem(position : Int){
+        snapshots.getSnapshot(position).ref.removeValue()
+    }
+
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         var textTitle : TextView = itemView.findViewById(R.id.textViewTitleItem)
         var textDescription : TextView = itemView.findViewById(R.id.textViewDescriptionItem)
