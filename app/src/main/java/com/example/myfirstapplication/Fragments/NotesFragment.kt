@@ -7,12 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.myfirstapplication.MyAdapter.MyAdapter
 import com.example.myfirstapplication.R
 import com.example.myfirstapplication.UserData.Notes
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.fragment_notes.*
 
 
 class NotesFragment : Fragment()  {
@@ -22,7 +24,6 @@ class NotesFragment : Fragment()  {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view :View = inflater.inflate(R.layout.fragment_notes,container,false)
-
         recyclerViewList = view.findViewById(R.id.recyclerViewList)
         recyclerViewList.layoutManager = LinearLayoutManager(context)
 
@@ -31,9 +32,31 @@ class NotesFragment : Fragment()  {
             .build()
 
         myAdapter = MyAdapter(options)
-        myAdapter.startListening()
         myAdapter.notifyDataSetChanged()
         recyclerViewList.adapter = myAdapter
         return view
+    }
+
+    override fun onStart() {
+        super.onStart()
+        myAdapter.startListening()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        myAdapter.stopListening()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        floatingBtnToGrid.setOnClickListener {
+            recyclerViewList.layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
+        }
+
+        floatingBtnToGrid.setOnLongClickListener {
+            recyclerViewList.layoutManager = LinearLayoutManager(context)
+            return@setOnLongClickListener true
+        }
     }
 }
