@@ -14,6 +14,7 @@ import com.example.myfirstapplication.MyAdapter.MyAdapter
 import com.example.myfirstapplication.R
 import com.example.myfirstapplication.UserData.Notes
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_notes.*
 
@@ -23,6 +24,8 @@ class NotesFragment : Fragment()  {
     lateinit var recyclerViewList : RecyclerView
     lateinit var myAdapter: MyAdapter
 
+    var databaseReference : DatabaseReference? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view :View = inflater.inflate(R.layout.fragment_notes,container,false)
         recyclerViewList = view.findViewById(R.id.recyclerViewList)
@@ -31,6 +34,8 @@ class NotesFragment : Fragment()  {
         val options: FirebaseRecyclerOptions<Notes> = FirebaseRecyclerOptions.Builder<Notes>()
             .setQuery(FirebaseDatabase.getInstance().reference.child("notes collection"), Notes::class.java)
             .build()
+
+        databaseReference?.keepSynced(true)
 
         myAdapter = MyAdapter(options)
         myAdapter.notifyDataSetChanged()
