@@ -3,7 +3,7 @@ package com.example.myfirstapplication
 import android.app.Application
 import com.google.firebase.database.FirebaseDatabase
 
-class OfflineActivity : Application() {
+class OfflineSupport : Application() {
 
     override fun onCreate() {
         super.onCreate()

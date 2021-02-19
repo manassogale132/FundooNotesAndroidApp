@@ -35,7 +35,7 @@ class NotesFragment : Fragment()  {
             .setQuery(FirebaseDatabase.getInstance().reference.child("notes collection"), Notes::class.java)
             .build()
 
-        databaseReference?.keepSynced(true)
+        databaseReference?.keepSynced(true) //offline support
 
         myAdapter = MyAdapter(options)
         myAdapter.notifyDataSetChanged()
