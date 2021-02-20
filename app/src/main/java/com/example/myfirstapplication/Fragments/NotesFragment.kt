@@ -16,6 +16,7 @@ import com.example.myfirstapplication.UserData.Notes
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.fragment_addnote.*
 import kotlinx.android.synthetic.main.fragment_notes.*
 
 
@@ -59,6 +60,12 @@ class NotesFragment : Fragment()  {
         swipeRightToDeleteItemFromRecyclerView()
         addClickToGridButton()
         addClickToLinearListButton()
+
+        searchBtn.setOnClickListener {
+            val searchText = searchEditText.editableText.toString()
+            itemSearchInRecyclerView(searchText)
+            searchEditText.clearFocus()
+        }
     }
     //------------------------------------------------------------------------------------------------------------------
     private fun swipeRightToDeleteItemFromRecyclerView(){
@@ -87,4 +94,16 @@ class NotesFragment : Fragment()  {
         }
     }
     //------------------------------------------------------------------------------------------------------------------
+    private fun itemSearchInRecyclerView(searchText : String){
+
+        val options: FirebaseRecyclerOptions<Notes> = FirebaseRecyclerOptions.Builder<Notes>()
+            .setQuery(FirebaseDatabase.getInstance().reference.child("notes collection").orderByChild("title").startAt(searchText).endAt(searchText+"\uf8ff"), Notes::class.java)
+            .build()
+
+        myAdapter = MyAdapter(options)
+        myAdapter.startListening()
+        recyclerViewList.adapter = myAdapter
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
 }
