@@ -1,15 +1,15 @@
 package com.example.myfirstapplication.Fragments
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.*
 import com.example.myfirstapplication.MyAdapter.MyAdapter
 import com.example.myfirstapplication.R
 import com.example.myfirstapplication.UserData.Notes
@@ -65,6 +65,7 @@ class NotesFragment : Fragment()  {
             val searchText = searchEditText.editableText.toString()
             itemSearchInRecyclerView(searchText)
             searchEditText.clearFocus()
+            hideKeyboard()
         }
     }
     //------------------------------------------------------------------------------------------------------------------
@@ -83,7 +84,8 @@ class NotesFragment : Fragment()  {
     //------------------------------------------------------------------------------------------------------------------
     private fun addClickToGridButton(){
         floatingBtnToGrid.setOnClickListener {
-            recyclerViewList.layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
+           // recyclerViewList.layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
+            recyclerViewList.layoutManager = GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
         }
     }
     //------------------------------------------------------------------------------------------------------------------
@@ -94,10 +96,11 @@ class NotesFragment : Fragment()  {
         }
     }
     //------------------------------------------------------------------------------------------------------------------
-    private fun itemSearchInRecyclerView(searchText : String){
+    private fun itemSearchInRecyclerView(searchText : String){    //search feature
 
         val options: FirebaseRecyclerOptions<Notes> = FirebaseRecyclerOptions.Builder<Notes>()
-            .setQuery(FirebaseDatabase.getInstance().reference.child("notes collection").orderByChild("title").startAt(searchText).endAt(searchText+"\uf8ff"), Notes::class.java)
+            .setQuery(FirebaseDatabase.getInstance().reference.child("notes collection")
+                .orderByChild("title").startAt(searchText).endAt(searchText+"\uf8ff"), Notes::class.java)
             .build()
 
         myAdapter = MyAdapter(options)
@@ -105,5 +108,16 @@ class NotesFragment : Fragment()  {
         recyclerViewList.adapter = myAdapter
     }
     //------------------------------------------------------------------------------------------------------------------
+    fun Fragment.hideKeyboard() {                  //to hide keyboard when save note button is clicked
+        view?.let { activity?.hideKeyboard(it) }
+    }
 
+    fun Activity.hideKeyboard() {
+        hideKeyboard(currentFocus ?: View(this))
+    }
+
+    fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
 }
