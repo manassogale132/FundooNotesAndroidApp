@@ -32,7 +32,7 @@
             android:layout_marginBottom="5dp"
             android:contentDescription="TODO"
             android:src="@drawable/ic_baseline_search_24"
-            android:tint="@color/black" />
+            android:backgroundTint="#177CD6" />
 
 
     </LinearLayout>

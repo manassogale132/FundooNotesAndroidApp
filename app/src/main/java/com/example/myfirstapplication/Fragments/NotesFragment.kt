@@ -59,13 +59,17 @@ class NotesFragment : Fragment()  {
 
         swipeRightToDeleteItemFromRecyclerView()
         addClickToGridButton()
-        addClickToLinearListButton()
 
         searchBtn.setOnClickListener {
             val searchText = searchEditText.editableText.toString()
-            itemSearchInRecyclerView(searchText)
-            searchEditText.clearFocus()
-            hideKeyboard()
+            if(searchText.isNotEmpty()) {
+                itemSearchInRecyclerView(searchText)
+                searchEditText.clearFocus()
+                hideKeyboard()
+            }else if(searchText.isEmpty()){
+                //searchEditText.error = "Search field is empty"
+                Toast.makeText(activity, "Search field is empty! Enter something", Toast.LENGTH_SHORT).show()
+            }
         }
     }
     //------------------------------------------------------------------------------------------------------------------
@@ -83,16 +87,20 @@ class NotesFragment : Fragment()  {
     }
     //------------------------------------------------------------------------------------------------------------------
     private fun addClickToGridButton(){
+        var i : Int =0
         floatingBtnToGrid.setOnClickListener {
-           // recyclerViewList.layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
-            recyclerViewList.layoutManager = GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
-        }
-    }
-    //------------------------------------------------------------------------------------------------------------------
-    private fun addClickToLinearListButton(){
-        floatingBtnToGrid.setOnLongClickListener {
-            recyclerViewList.layoutManager = LinearLayoutManager(context)
-            return@setOnLongClickListener true
+            if(i == 0) {
+                // recyclerViewList.layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
+                recyclerViewList.layoutManager =
+                    GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
+                Toast.makeText(activity, "Switched to grid view!", Toast.LENGTH_SHORT).show();
+                i++
+            }
+            else if (i == 1){
+                recyclerViewList.layoutManager = LinearLayoutManager(context)
+                Toast.makeText(activity, "Switched to list view!", Toast.LENGTH_SHORT).show();
+                i = 0
+            }
         }
     }
     //------------------------------------------------------------------------------------------------------------------
@@ -120,4 +128,5 @@ class NotesFragment : Fragment()  {
         val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
+    //------------------------------------------------------------------------------------------------------------------
 }
