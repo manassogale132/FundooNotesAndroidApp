@@ -69,6 +69,10 @@ class NotesFragment : Fragment()  {
             }else if(searchText.isEmpty()){
                 //searchEditText.error = "Search field is empty"
                 Toast.makeText(activity, "Search field is empty! Enter something", Toast.LENGTH_SHORT).show()
+                fragmentManager?.beginTransaction()?.replace(R.id.fragment_container,
+                    NotesFragment()
+                )?.commit()
+                hideKeyboard()
             }
         }
     }
