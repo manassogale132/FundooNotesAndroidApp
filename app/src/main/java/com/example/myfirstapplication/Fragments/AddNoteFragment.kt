@@ -36,9 +36,7 @@ class AddNoteFragment : Fragment()  {
 
        noteSaveBtn.setOnClickListener {
            addAndUpdateNotesToDataBase()
-           fragmentManager?.beginTransaction()?.replace(R.id.fragment_container,
-               NotesFragment()
-           )?.commit()
+           getActivity()?.onBackPressed();
            hideKeyboard()
        }
     }
