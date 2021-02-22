@@ -48,6 +48,8 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>) : FirebaseRecyclerAdapt
 
             close.setOnClickListener {
                 dialogPlus.dismiss()
+                title.clearFocus()
+                description.clearFocus()
             }
 
             updateBTN.setOnClickListener {
@@ -60,6 +62,8 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>) : FirebaseRecyclerAdapt
                         .child(it1).updateChildren(map)
                         .addOnSuccessListener {
                             dialogPlus.dismiss()
+                            title.clearFocus()
+                            description.clearFocus()
                             Toast.makeText(myView.getContext(), "Note Updated!", Toast.LENGTH_SHORT).show();
                         }
                         .addOnFailureListener {
