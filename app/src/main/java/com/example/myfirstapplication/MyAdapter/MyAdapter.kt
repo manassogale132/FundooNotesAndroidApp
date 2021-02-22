@@ -33,7 +33,7 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>) : FirebaseRecyclerAdapt
         holder.updateBtn.setOnClickListener {
             val dialogPlus = DialogPlus.newDialog(holder.textTitle.context)
                 .setContentHolder(ViewHolder(R.layout.dialog_content))
-                .setExpanded(true,2100).create()
+                .setExpanded(true,2300).create()
 
             val myView : View = dialogPlus.holderView
             val title : EditText = myView.findViewById(R.id.titleDialog)

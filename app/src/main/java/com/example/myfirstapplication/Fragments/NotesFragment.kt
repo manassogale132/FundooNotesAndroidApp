@@ -66,14 +66,17 @@ class NotesFragment : Fragment()  {
                 itemSearchInRecyclerView(searchText)
                 searchEditText.clearFocus()
                 hideKeyboard()
-            }else if(searchText.isEmpty()){
-                //searchEditText.error = "Search field is empty"
-                hideKeyboard()
-                fragmentManager?.beginTransaction()?.replace(R.id.fragment_container,
-                    NotesFragment()
-                )?.commit()
-                Toast.makeText(activity, "Search field is empty! Enter something", Toast.LENGTH_SHORT).show()
             }
+            else if(searchText.isEmpty()){
+                Toast.makeText(activity, "Search field is empty!", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        backToAllNotes.setOnClickListener {
+            fragmentManager?.beginTransaction()?.replace(R.id.fragment_container,
+                NotesFragment()
+            )?.commit()
+            hideKeyboard()
         }
     }
     //------------------------------------------------------------------------------------------------------------------
@@ -85,7 +88,7 @@ class NotesFragment : Fragment()  {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 myAdapter.deleteItem(viewHolder.adapterPosition)
-                Toast.makeText(activity, "Note deleted from database!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "Note deleted!", Toast.LENGTH_SHORT).show()
             }
         }).attachToRecyclerView(recyclerViewList)
     }

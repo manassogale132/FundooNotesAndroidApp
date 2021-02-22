@@ -35,9 +35,11 @@ class AddNoteFragment : Fragment()  {
         database = FirebaseDatabase.getInstance()
 
        noteSaveBtn.setOnClickListener {
-           addAndUpdateNotesToDataBase()
-           getActivity()?.onBackPressed();
-           hideKeyboard()
+           if(validationCheck() == true) {
+               addAndUpdateNotesToDataBase()
+               getActivity()?.onBackPressed();
+               hideKeyboard()
+           }
        }
     }
     //------------------------------------------------------------------------------------------------------------------
@@ -54,7 +56,7 @@ class AddNoteFragment : Fragment()  {
             val notes = Notes(userId,title, description)
             currentUserDb?.setValue(notes)
 
-            Toast.makeText(activity, "Note save to database!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, "Note saved!", Toast.LENGTH_SHORT).show();
         }
     }
     //------------------------------------------------------------------------------------------------------------------
