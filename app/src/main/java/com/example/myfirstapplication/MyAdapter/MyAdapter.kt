@@ -33,17 +33,22 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>) : FirebaseRecyclerAdapt
         holder.updateBtn.setOnClickListener {
             val dialogPlus = DialogPlus.newDialog(holder.textTitle.context)
                 .setContentHolder(ViewHolder(R.layout.dialog_content))
-                .setExpanded(true,1900).create()
+                .setExpanded(true,2100).create()
 
             val myView : View = dialogPlus.holderView
             val title : EditText = myView.findViewById(R.id.titleDialog)
             val description : EditText = myView.findViewById(R.id.descriptionDialog)
             val updateBTN : Button = myView.findViewById(R.id.updateButton)
+            val close : ImageView = myView.findViewById(R.id.closeDialog)
 
             title.setText(notes.title)
             description.setText(notes.description)
 
             dialogPlus.show()
+
+            close.setOnClickListener {
+                dialogPlus.dismiss()
+            }
 
             updateBTN.setOnClickListener {
                 val map: MutableMap<String, Any> = HashMap()
