@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.*
 import com.example.myfirstapplication.MyAdapter.MyAdapter
@@ -59,25 +60,16 @@ class NotesFragment : Fragment()  {
 
         swipeRightToDeleteItemFromRecyclerView()
         addClickToGridButton()
-
-        searchBtn.setOnClickListener {
-            val searchText = searchEditText.editableText.toString()
-            if(searchText.isNotEmpty()) {
-                itemSearchInRecyclerView(searchText)
-                searchEditText.clearFocus()
-                hideKeyboard()
+        searchViewId.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(searchText: String): Boolean {
+                return false
             }
-            else if(searchText.isEmpty()){
-                Toast.makeText(activity, "Search field is empty!", Toast.LENGTH_SHORT).show()
-            }
-        }
+            override fun onQueryTextChange(searchText: String): Boolean {
+                    itemSearchInRecyclerView(searchText)
 
-        backToAllNotes.setOnClickListener {
-            fragmentManager?.beginTransaction()?.replace(R.id.fragment_container,
-                NotesFragment()
-            )?.commit()
-            hideKeyboard()
-        }
+               return false
+            }
+        })
     }
     //------------------------------------------------------------------------------------------------------------------
     private fun swipeRightToDeleteItemFromRecyclerView(){
