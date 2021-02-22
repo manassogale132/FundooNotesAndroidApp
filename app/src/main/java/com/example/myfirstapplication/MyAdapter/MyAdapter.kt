@@ -55,9 +55,11 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>) : FirebaseRecyclerAdapt
                         .child(it1).updateChildren(map)
                         .addOnSuccessListener {
                             dialogPlus.dismiss()
+                            Toast.makeText(myView.getContext(), "Note Updated!", Toast.LENGTH_SHORT).show();
                         }
                         .addOnFailureListener {
                             dialogPlus.dismiss()
+                            Toast.makeText(myView.getContext(), "Error while updating!", Toast.LENGTH_SHORT).show();
                         }
                 }
             }
