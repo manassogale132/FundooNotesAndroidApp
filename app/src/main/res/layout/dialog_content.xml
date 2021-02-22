@@ -6,31 +6,40 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#177CD6"
-        android:gravity="center"
-        android:text="Update Note"
-        android:textColor="#fff"
-        android:textSize="30sp" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#177CD6">
 
-    <ImageView
-        android:id="@+id/closeDialog"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="355dp"
-        android:src="@drawable/ic_baseline_close_24"
-        app:tint="#5B000000" />
+        <TextView
+            android:layout_width="360dp"
+            android:layout_height="50dp"
+            android:text="Update Note"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="#fff"
+            android:textStyle="bold"
+            android:textSize="25sp" />
+
+        <ImageView
+            android:id="@+id/closeDialog"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_baseline_close_24"
+            app:tint="@color/white" />
+    </LinearLayout>
 
     <EditText
         android:id="@+id/titleDialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="1dp"
         android:hint="Title"
-        android:layout_margin="15dp"
         android:textSize="20sp" />
 
 
@@ -38,9 +47,9 @@
         android:id="@+id/descriptionDialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:hint="Description"
-        android:layout_margin="15dp"
         android:textSize="20sp" />
 
     <Button
