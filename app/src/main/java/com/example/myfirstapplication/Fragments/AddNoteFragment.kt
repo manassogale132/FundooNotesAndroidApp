@@ -1,7 +1,10 @@
 package com.example.myfirstapplication.Fragments
 
-import android.app.Activity
+import android.app.*
 import android.content.Context
+import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +12,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.myfirstapplication.Activities.DashboardActivity
 import com.example.myfirstapplication.R
 import com.example.myfirstapplication.UserData.Notes
 import com.example.myfirstapplication.UserData.Users
@@ -24,6 +28,12 @@ class AddNoteFragment : Fragment()  {
     var databaseReference : DatabaseReference? = null
     var database : FirebaseDatabase? = null
 
+    lateinit var notificationManager: NotificationManager
+    lateinit var notificationChannel: NotificationChannel
+    lateinit var builder : Notification.Builder
+    private val channelId = "com.example.myfirstapplication.Fragments"
+    private val desctiption = "Test Notification"
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_addnote,container,false)
     }
@@ -31,12 +41,33 @@ class AddNoteFragment : Fragment()  {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        notificationManager =  context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
         auth = FirebaseAuth.getInstance()              //initialize auth object inside onCreate()
         database = FirebaseDatabase.getInstance()
 
        noteSaveBtn.setOnClickListener {
+
            if(validationCheck() == true) {
                addAndUpdateNotesToDataBase()
+               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                   notificationChannel =
+                       NotificationChannel(channelId,desctiption,NotificationManager.IMPORTANCE_HIGH)
+                   notificationChannel.enableVibration(false)
+                   notificationManager.createNotificationChannel(notificationChannel)
+
+                   builder = Notification.Builder(context,channelId)
+                       .setContentTitle("Notes App")
+                       .setContentText("New note added")
+                       .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+               }
+               else{
+                   builder = Notification.Builder(context)
+                       .setContentTitle("Notes App")
+                       .setContentText("New note added")
+                       .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+               }
+               notificationManager.notify(1234,builder.build())
                getActivity()?.onBackPressed();
                hideKeyboard()
            }
