@@ -31,8 +31,13 @@ class NotesFragment : Fragment()  {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view :View = inflater.inflate(R.layout.fragment_notes,container,false)
         recyclerViewList = view.findViewById(R.id.recyclerViewList)
+        recyclerViewList.setHasFixedSize(true);
         recyclerViewList.layoutManager = LinearLayoutManager(context)
 
+        loadDataIntoRecycler()
+        return view
+    }
+    fun loadDataIntoRecycler(){
         val options: FirebaseRecyclerOptions<Notes> = FirebaseRecyclerOptions.Builder<Notes>()
             .setQuery(FirebaseDatabase.getInstance().reference.child("notes collection")
                 .orderByChild("title"), Notes::class.java)
@@ -43,7 +48,6 @@ class NotesFragment : Fragment()  {
         myAdapter = MyAdapter(options)
         myAdapter.notifyDataSetChanged()
         recyclerViewList.adapter = myAdapter
-        return view
     }
 
     override fun onStart() {
@@ -114,19 +118,6 @@ class NotesFragment : Fragment()  {
         myAdapter = MyAdapter(options)
         myAdapter.startListening()
         recyclerViewList.adapter = myAdapter
-    }
-    //------------------------------------------------------------------------------------------------------------------
-    fun Fragment.hideKeyboard() {                  //to hide keyboard when save note button is clicked
-        view?.let { activity?.hideKeyboard(it) }
-    }
-
-    fun Activity.hideKeyboard() {
-        hideKeyboard(currentFocus ?: View(this))
-    }
-
-    fun Context.hideKeyboard(view: View) {
-        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
     //------------------------------------------------------------------------------------------------------------------
 }
