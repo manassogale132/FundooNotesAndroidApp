@@ -1,6 +1,7 @@
 package com.example.myfirstapplication.Fragments
 
 import android.app.Activity
+import android.app.DirectAction
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import com.example.myfirstapplication.UserData.Notes
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.Query
 import kotlinx.android.synthetic.main.fragment_addnote.*
 import kotlinx.android.synthetic.main.fragment_notes.*
 
@@ -70,8 +72,7 @@ class NotesFragment : Fragment()  {
                 return false
             }
             override fun onQueryTextChange(searchText: String): Boolean {
-                    itemSearchInRecyclerView(searchText)
-
+                itemSearchInRecyclerView(searchText)
                return false
             }
         })
