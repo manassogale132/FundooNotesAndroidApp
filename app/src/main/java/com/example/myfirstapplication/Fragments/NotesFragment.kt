@@ -34,7 +34,8 @@ class NotesFragment : Fragment()  {
         recyclerViewList.layoutManager = LinearLayoutManager(context)
 
         val options: FirebaseRecyclerOptions<Notes> = FirebaseRecyclerOptions.Builder<Notes>()
-            .setQuery(FirebaseDatabase.getInstance().reference.child("notes collection"), Notes::class.java)
+            .setQuery(FirebaseDatabase.getInstance().reference.child("notes collection")
+                .orderByChild("title"), Notes::class.java)
             .build()
 
         databaseReference?.keepSynced(true) //offline support
