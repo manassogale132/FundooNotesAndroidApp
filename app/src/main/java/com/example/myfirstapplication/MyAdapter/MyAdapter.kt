@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapplication.R
 import com.example.myfirstapplication.UserData.Notes
 import com.firebase.ui.database.FirebaseRecyclerAdapter
+import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.firebase.ui.database.paging.DatabasePagingOptions
 import com.firebase.ui.database.paging.FirebaseRecyclerPagingAdapter
 import com.firebase.ui.database.paging.LoadingState
@@ -18,7 +19,7 @@ import com.orhanobut.dialogplus.ViewHolder
 import kotlin.collections.HashMap
 import kotlin.coroutines.coroutineContext
 
-class MyAdapter(options: DatabasePagingOptions<Notes>) : FirebaseRecyclerPagingAdapter<Notes, MyAdapter.MyViewHolder>(options) {
+class MyAdapter(options: FirebaseRecyclerOptions<Notes>) : FirebaseRecyclerAdapter<Notes, MyAdapter.MyViewHolder>(options) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -75,35 +76,14 @@ class MyAdapter(options: DatabasePagingOptions<Notes>) : FirebaseRecyclerPagingA
         }
     }
 
-   /*public fun deleteItem(position : Int){
+   public fun deleteItem(position : Int){
         snapshots.getSnapshot(position).ref.removeValue()
-    }*/
+    }
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         var textTitle : TextView = itemView.findViewById(R.id.textViewTitleItem)
         var textDescription : TextView = itemView.findViewById(R.id.textViewDescriptionItem)
         var updateBtn : ImageView = itemView.findViewById(R.id.updateICon)
-    }
-
-    override fun onLoadingStateChanged(state: LoadingState) {
-        when (state) {
-            LoadingState.LOADED -> {
-                Log.d("PaggingLog","Total Notes Loaded" + itemCount)
-            }
-            LoadingState.ERROR -> {
-                Log.d("PaggingLog","Error Loading Notes")
-            }
-            LoadingState.FINISHED ->{
-               //Toast.makeText(this, "All Notes Loaded!", Toast.LENGTH_SHORT).show();
-                Log.d("PaggingLog","All Notes Loaded")
-            }
-            LoadingState.LOADING_INITIAL -> {
-                Log.d("PaggingLog","Loading Initial Notes")
-            }
-            LoadingState.LOADING_MORE -> {
-                Log.d("PaggingLog","Loading Next Notes")
-            }
-        }
     }
 }
 
