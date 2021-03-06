@@ -51,20 +51,19 @@ class AddNoteFragment : Fragment()  {
            if(validationCheck() == true) {
                addAndUpdateNotesToDataBase()
                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                   notificationChannel =
-                       NotificationChannel(channelId,desctiption,NotificationManager.IMPORTANCE_HIGH)
+                   notificationChannel = NotificationChannel(channelId,desctiption,NotificationManager.IMPORTANCE_HIGH)
                    notificationChannel.enableVibration(false)
                    notificationManager.createNotificationChannel(notificationChannel)
 
                    builder = Notification.Builder(context,channelId)
-                       .setContentTitle("Notes App")
-                       .setContentText("New note added")
+                       .setContentTitle("Notes App Alert")
+                       .setContentText("Note added")
                        .setSmallIcon(R.drawable.ic_baseline_notifications_24)
                }
                else{
                    builder = Notification.Builder(context)
-                       .setContentTitle("Notes App")
-                       .setContentText("New note added")
+                       .setContentTitle("Notes App Alert")
+                       .setContentText("Note added")
                        .setSmallIcon(R.drawable.ic_baseline_notifications_24)
                }
                notificationManager.notify(1234,builder.build())
@@ -75,7 +74,6 @@ class AddNoteFragment : Fragment()  {
     }
     //------------------------------------------------------------------------------------------------------------------
     private fun addAndUpdateNotesToDataBase(){
-        if(validationCheck()) {
             databaseReference = database?.reference!!.child("notes collection")
             val currentUserDb = databaseReference?.push()
 
@@ -88,7 +86,6 @@ class AddNoteFragment : Fragment()  {
             currentUserDb?.setValue(notes)
 
             Toast.makeText(activity, "Note saved!", Toast.LENGTH_SHORT).show();
-        }
     }
     //------------------------------------------------------------------------------------------------------------------
     fun validationCheck() : Boolean {                //entry validation check method

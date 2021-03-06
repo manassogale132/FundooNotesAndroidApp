@@ -4,6 +4,7 @@ class Notes {
     var userID : String? = null
     var title : String? = null
     var description : String? = null
+    var creationTime : Long = System.currentTimeMillis()
 
     constructor(){
 
