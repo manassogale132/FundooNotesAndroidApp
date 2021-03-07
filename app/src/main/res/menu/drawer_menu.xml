@@ -15,6 +15,10 @@
         <item android:id="@+id/nav_profile"
             android:icon="@drawable/ic_person"
             android:title="Profile"/>
+
+        <item android:id="@+id/nav_label"
+            android:icon="@drawable/ic_baseline_label_24"
+            android:title="Create Label"/>
     </group>
 
     <item android:title="Options">

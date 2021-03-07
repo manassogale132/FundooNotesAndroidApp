@@ -14,6 +14,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.bumptech.glide.Glide
 import com.example.myfirstapplication.Fragments.AddNoteFragment
+import com.example.myfirstapplication.Fragments.LabelFragment
 import com.example.myfirstapplication.Fragments.NotesFragment
 import com.example.myfirstapplication.Fragments.ProfileFragment
 import com.example.myfirstapplication.R
@@ -73,6 +74,12 @@ class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemS
                 //placing our fragment in fragment container frame layout
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container,
                     AddNoteFragment()
+                ).commit()
+                viewIsAtHome = false
+            }
+            R.id.nav_label -> {
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container,
+                    LabelFragment()
                 ).commit()
                 viewIsAtHome = false
             }
