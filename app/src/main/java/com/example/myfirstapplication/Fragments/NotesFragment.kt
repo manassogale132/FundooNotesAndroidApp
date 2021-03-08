@@ -19,6 +19,7 @@ import com.firebase.ui.database.paging.DatabasePagingOptions
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.*
+import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.fragment_notes.*
 import kotlinx.android.synthetic.main.item_view.*
 import kotlinx.android.synthetic.main.label_item_view.*
@@ -82,12 +83,6 @@ class NotesFragment : Fragment()  {
                return false
             }
         })
-
-        /*addLabelToItemBtn.setOnClickListener {
-            fragmentManager?.beginTransaction()?.replace(R.id.fragment_container,
-                LabelFragment())?.commit()
-        }*/
-
     }
     //------------------------------------------------------------------------------------------------------------------
     private fun swipeRightToDeleteItemFromRecyclerView(){

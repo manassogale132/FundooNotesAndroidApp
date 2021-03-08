@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapplication.Fragments.AddNoteFragment
 import com.example.myfirstapplication.Fragments.LabelFragment
@@ -77,11 +78,12 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>) : FirebaseRecyclerAdapt
             }
         }
 
-        /*holder.loadLabelFragment.setOnClickListener {
-            fragmentManager?.beginTransaction()?.replace(R.id.fragment_container,
+        holder.loadLabelFragment.setOnClickListener {
+             lateinit var fragmentManager : FragmentManager
+                 fragmentManager.beginTransaction().replace(R.id.fragment_container,
                 LabelFragment()
-            )?.commit()
-        }*/
+            ).commit()
+        }
     }
 
    public fun deleteItem(position : Int){
