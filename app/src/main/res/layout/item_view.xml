@@ -45,6 +45,14 @@
             android:textSize="16dp"
             android:textColor="@color/black"
             android:text="Description" />
+
+        <ImageView
+            android:id="@+id/addLabelToItemBtn"
+            android:layout_width="35dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_baseline_label_24"
+            android:tint="#177CD6"
+            android:layout_marginLeft="-8dp"/>
     </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -62,7 +70,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:tint="#177CD6" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

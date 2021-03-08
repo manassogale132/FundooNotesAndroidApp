@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -16,7 +18,10 @@ import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.firebase.ui.database.paging.DatabasePagingOptions
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.*
 import kotlinx.android.synthetic.main.fragment_notes.*
+import kotlinx.android.synthetic.main.item_view.*
+import kotlinx.android.synthetic.main.label_item_view.*
 
 
 class NotesFragment : Fragment()  {
@@ -24,7 +29,6 @@ class NotesFragment : Fragment()  {
     lateinit var recyclerViewList : RecyclerView
     lateinit var myAdapter: MyAdapter
     lateinit var manager : LinearLayoutManager
-    var isScrolling : Boolean = false
 
     var databaseReference : DatabaseReference? = null
 
@@ -78,6 +82,12 @@ class NotesFragment : Fragment()  {
                return false
             }
         })
+
+        /*addLabelToItemBtn.setOnClickListener {
+            fragmentManager?.beginTransaction()?.replace(R.id.fragment_container,
+                LabelFragment())?.commit()
+        }*/
+
     }
     //------------------------------------------------------------------------------------------------------------------
     private fun swipeRightToDeleteItemFromRecyclerView(){

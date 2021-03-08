@@ -76,6 +76,7 @@ class LabelFragment : Fragment()  {
         labelSaveBtn.setOnClickListener {
             if(validationCheck()) {
                 addLabelsToDataBase()
+                editTextLabel.clearFocus()
                 hideKeyboard()
             }
         }
