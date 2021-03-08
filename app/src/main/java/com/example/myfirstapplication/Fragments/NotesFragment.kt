@@ -53,7 +53,11 @@ class NotesFragment : Fragment()  {
                 .orderByChild("creationTime"), Notes::class.java)
             .build()
 
-        myAdapter = MyAdapter(options)
+        myAdapter = MyAdapter(options) {
+            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,
+                LabelFragment()
+            )?.commit()
+        }
         myAdapter.notifyDataSetChanged()
         recyclerViewList.adapter = myAdapter
     }
@@ -123,7 +127,11 @@ class NotesFragment : Fragment()  {
                 .orderByChild("title").startAt(searchText).endAt(searchText+"\uf8ff"), Notes::class.java)
             .build()
 
-        myAdapter = MyAdapter(options)
+        myAdapter = MyAdapter(options) {
+            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,
+                LabelFragment()
+            )?.commit()
+        }
         myAdapter.startListening()
         recyclerViewList.adapter = myAdapter
     }

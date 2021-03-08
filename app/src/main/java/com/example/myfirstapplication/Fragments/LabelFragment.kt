@@ -49,7 +49,8 @@ class LabelFragment : Fragment()  {
     private fun loadDataIntoRecycler(){
 
         val options: FirebaseRecyclerOptions<Label> = FirebaseRecyclerOptions.Builder<Label>()
-            .setQuery(FirebaseDatabase.getInstance().reference.child("label collection"), Label::class.java)
+            .setQuery(FirebaseDatabase.getInstance().reference.child("label collection")
+                .orderByChild("creationTime"), Label::class.java)
             .build()
 
         myLabelAdapter = MyLabelAdapter(options)

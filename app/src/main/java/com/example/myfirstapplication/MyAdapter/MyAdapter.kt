@@ -1,10 +1,12 @@
 package com.example.myfirstapplication.MyAdapter
 
+import android.app.Activity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapplication.Fragments.AddNoteFragment
@@ -22,7 +24,7 @@ import com.orhanobut.dialogplus.ViewHolder
 import kotlin.collections.HashMap
 import kotlin.coroutines.coroutineContext
 
-class MyAdapter(options: FirebaseRecyclerOptions<Notes>) : FirebaseRecyclerAdapter<Notes, MyAdapter.MyViewHolder>(options) {
+class MyAdapter(options: FirebaseRecyclerOptions<Notes>,val onLabelItemClicked : (position : Int)-> Unit) : FirebaseRecyclerAdapter<Notes, MyAdapter.MyViewHolder>(options) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -79,10 +81,7 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>) : FirebaseRecyclerAdapt
         }
 
         holder.loadLabelFragment.setOnClickListener {
-             lateinit var fragmentManager : FragmentManager
-                 fragmentManager.beginTransaction().replace(R.id.fragment_container,
-                LabelFragment()
-            ).commit()
+                onLabelItemClicked(p1)
         }
     }
 
