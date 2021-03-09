@@ -13,6 +13,7 @@ import com.example.myfirstapplication.R
 import com.example.myfirstapplication.UserData.Label
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.fragment_label_checkbox.*
 
 class LabelFragmentCheckBox: Fragment()   {
 
@@ -54,4 +55,13 @@ class LabelFragmentCheckBox: Fragment()   {
         myLabelCheckBoxAdapter.stopListening()
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        backLabel.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,
+                NotesFragment()
+            )?.commit()
+        }
+    }
 }
