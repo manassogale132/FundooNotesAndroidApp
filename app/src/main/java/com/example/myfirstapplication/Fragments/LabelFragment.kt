@@ -91,8 +91,9 @@ class LabelFragment : Fragment()  {
 
         val userId = auth.currentUser?.uid
         val label = editTextLabel.editableText.toString()
+        val labelId = currentUserDb?.key
 
-        val labelentry = Label(userId,label)
+        val labelentry = Label(userId,label,labelId)
         currentUserDb?.setValue(labelentry)
 
         Toast.makeText(activity, "Label saved!", Toast.LENGTH_SHORT).show();

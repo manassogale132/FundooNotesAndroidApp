@@ -2,6 +2,7 @@ package com.example.myfirstapplication.MyAdapter
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +26,9 @@ class MyLabelAdapter(options: FirebaseRecyclerOptions<Label>) : FirebaseRecycler
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int, label: Label) {
         holder.textLabel.text = label.label
+
+        Log.e("test", "onBindViewHolder: ${label.labelId}")
+
 
         holder.deleteLabel.setOnClickListener {
             val builder : AlertDialog.Builder = AlertDialog.Builder(holder.textLabel.context)

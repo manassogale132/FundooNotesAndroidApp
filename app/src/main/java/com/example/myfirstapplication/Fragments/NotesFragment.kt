@@ -4,25 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.paging.PagedList
 import androidx.recyclerview.widget.*
 import com.example.myfirstapplication.MyAdapter.MyAdapter
 import com.example.myfirstapplication.R
 import com.example.myfirstapplication.UserData.Notes
 import com.firebase.ui.database.FirebaseRecyclerOptions
-import com.firebase.ui.database.paging.DatabasePagingOptions
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.*
-import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.fragment_notes.*
-import kotlinx.android.synthetic.main.item_view.*
-import kotlinx.android.synthetic.main.label_item_view.*
 
 
 class NotesFragment : Fragment()  {
@@ -53,9 +46,11 @@ class NotesFragment : Fragment()  {
                 .orderByChild("creationTime"), Notes::class.java)
             .build()
 
-        myAdapter = MyAdapter(options) {
+        myAdapter = MyAdapter(options) { position : Int, note : Notes ->
             activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,
-                LabelFragmentCheckBox()
+                NoteLabelFragment().also {
+                    it.arguments = bundleOf("noteId" to note.noteId)
+                }
             )?.commit()
         }
         myAdapter.notifyDataSetChanged()
@@ -127,9 +122,11 @@ class NotesFragment : Fragment()  {
                 .orderByChild("title").startAt(searchText).endAt(searchText+"\uf8ff"), Notes::class.java)
             .build()
 
-        myAdapter = MyAdapter(options) {
+        myAdapter = MyAdapter(options) { position : Int, note : Notes ->
             activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,
-                LabelFragmentCheckBox()
+                NoteLabelFragment().also {
+                    it.arguments = bundleOf("noteId" to note.noteId)
+                }
             )?.commit()
         }
         myAdapter.startListening()

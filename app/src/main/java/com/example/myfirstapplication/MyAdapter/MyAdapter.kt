@@ -1,30 +1,21 @@
 package com.example.myfirstapplication.MyAdapter
 
-import android.app.Activity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myfirstapplication.Fragments.AddNoteFragment
-import com.example.myfirstapplication.Fragments.LabelFragment
 import com.example.myfirstapplication.R
 import com.example.myfirstapplication.UserData.Notes
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
-import com.firebase.ui.database.paging.DatabasePagingOptions
-import com.firebase.ui.database.paging.FirebaseRecyclerPagingAdapter
-import com.firebase.ui.database.paging.LoadingState
 import com.google.firebase.database.FirebaseDatabase
 import com.orhanobut.dialogplus.DialogPlus
 import com.orhanobut.dialogplus.ViewHolder
 import kotlin.collections.HashMap
-import kotlin.coroutines.coroutineContext
 
-class MyAdapter(options: FirebaseRecyclerOptions<Notes>,val onLabelItemClicked : (position : Int)-> Unit) : FirebaseRecyclerAdapter<Notes, MyAdapter.MyViewHolder>(options) {
+class MyAdapter(options: FirebaseRecyclerOptions<Notes>,val onLabelItemClicked : (position : Int, note : Notes)-> Unit) : FirebaseRecyclerAdapter<Notes, MyAdapter.MyViewHolder>(options) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -32,9 +23,11 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,val onLabelItemClicked :
         return  MyViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder,p1: Int, notes: Notes) {
-        holder.textTitle.text = notes.title
-        holder.textDescription.text = notes.description
+    override fun onBindViewHolder(holder: MyViewHolder, p1: Int, note: Notes) {
+        holder.textTitle.text = note.title
+        holder.textDescription.text = note.description
+
+        Log.e("test", "onBindViewHolder: ${note.noteId}")
 
         holder.updateBtn.setOnClickListener {
             val dialogPlus = DialogPlus.newDialog(holder.textTitle.context)
@@ -47,8 +40,8 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,val onLabelItemClicked :
             val updateBTN : Button = myView.findViewById(R.id.updateButton)
             val close : ImageView = myView.findViewById(R.id.closeDialog)
 
-            title.setText(notes.title)
-            description.setText(notes.description)
+            title.setText(note.title)
+            description.setText(note.description)
 
             dialogPlus.show()
 
@@ -81,7 +74,7 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,val onLabelItemClicked :
         }
 
         holder.loadLabelFragment.setOnClickListener {
-                onLabelItemClicked(p1)
+                onLabelItemClicked(p1,note)
         }
     }
 

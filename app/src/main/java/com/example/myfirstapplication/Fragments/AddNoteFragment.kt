@@ -2,8 +2,6 @@ package com.example.myfirstapplication.Fragments
 
 import android.app.*
 import android.content.Context
-import android.content.Intent
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,14 +10,11 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.myfirstapplication.Activities.DashboardActivity
 import com.example.myfirstapplication.R
 import com.example.myfirstapplication.UserData.Notes
-import com.example.myfirstapplication.UserData.Users
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.main.activity_registration.*
 import kotlinx.android.synthetic.main.fragment_addnote.*
 
 class AddNoteFragment : Fragment()  {
@@ -75,15 +70,16 @@ class AddNoteFragment : Fragment()  {
     //------------------------------------------------------------------------------------------------------------------
     private fun addAndUpdateNotesToDataBase(){
             databaseReference = database?.reference!!.child("notes collection")
-            val currentUserDb = databaseReference?.push()
+            val noteDataBaseReference = databaseReference?.push()
 
 
             val userId = auth.currentUser?.uid
             val title = editTextTitle.editableText.toString()
             val description = editTextDescription.editableText.toString()
+            val noteId = noteDataBaseReference?.key
 
-            val notes = Notes(userId,title, description)
-            currentUserDb?.setValue(notes)
+            val notes = Notes(userId,title, description,noteId)
+            noteDataBaseReference?.setValue(notes)
 
             Toast.makeText(activity, "Note saved!", Toast.LENGTH_SHORT).show();
     }

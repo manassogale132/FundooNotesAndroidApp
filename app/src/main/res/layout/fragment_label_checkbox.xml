@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/backLabel"
+        android:id="@+id/backToAllNotesBtnFromLabels"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="348dp"
@@ -46,7 +46,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/backToAllNotesBtnFromLabels" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
