@@ -55,7 +55,7 @@ class NotesFragment : Fragment()  {
 
         myAdapter = MyAdapter(options) {
             activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,
-                LabelFragment()
+                LabelFragmentCheckBox()
             )?.commit()
         }
         myAdapter.notifyDataSetChanged()
@@ -129,7 +129,7 @@ class NotesFragment : Fragment()  {
 
         myAdapter = MyAdapter(options) {
             activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,
-                LabelFragment()
+                LabelFragmentCheckBox()
             )?.commit()
         }
         myAdapter.startListening()

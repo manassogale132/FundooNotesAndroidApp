@@ -66,7 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="28dp"
         android:fontFamily="@font/custon_font2"
-        android:text="Created Labels"
+        android:text="Manage Labels"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

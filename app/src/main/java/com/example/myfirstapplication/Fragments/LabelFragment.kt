@@ -78,6 +78,7 @@ class LabelFragment : Fragment()  {
             if(validationCheck()) {
                 addLabelsToDataBase()
                 editTextLabel.clearFocus()
+                editTextLabel.setText("")
                 hideKeyboard()
             }
         }
