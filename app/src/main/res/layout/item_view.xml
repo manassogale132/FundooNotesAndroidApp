@@ -20,10 +20,10 @@
 
         <ImageButton
             android:id="@+id/remainderBellBtn"
-            android:layout_width="45dp"
+            android:layout_width="110dp"
             android:layout_height="45dp"
+            android:layout_gravity="end"
             android:layout_marginTop="-13dp"
-            android:layout_gravity="center_horizontal"
             android:src="@drawable/ic_baseline_doorbell_24"
             android:tint="#177CD6" />
 
