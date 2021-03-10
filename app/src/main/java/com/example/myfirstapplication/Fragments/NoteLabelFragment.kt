@@ -63,18 +63,12 @@ class NoteLabelFragment: Fragment()   {
 
             if(isChecked) {
                 val noteLabelRelationShipReference = databaseReference?.push()
-
                 val relationShip = NoteLabelRelationShip(noteID, label.labelId)
-
                 noteLabelRelationShipReference?.setValue(relationShip)
             }else{
                 databaseReference?.get()?.addOnSuccessListener {
-                    Log.e("tag", "loadDataIntoRecycler: ${it.children.count()} ")
-                    it.children.forEach {
-                        child ->
-                        Log.e("tag", "loadDataIntoRecycler: ${child.child("noteId").value} ")
+                    it.children.forEach { child ->
                         if(child.child("noteId").value!!.equals(noteID) && child.child("labelId").value!!.equals(label.labelId)){
-                            Log.e("tag", "loadDataIntoRecycler: ")
                         databaseReference?.child(child.key.toString())?.removeValue()
                     }
                     }

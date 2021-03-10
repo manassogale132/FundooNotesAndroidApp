@@ -6,7 +6,7 @@
     <group android:checkableBehavior="single">
         <item android:id="@+id/nav_notes"
             android:icon="@drawable/ic_notes"
-            android:title="Notes"/>
+            android:title="All Notes"/>
 
         <item android:id="@+id/nav_addNote"
             android:icon="@drawable/ic_baseline_note_add_24"
@@ -19,6 +19,11 @@
         <item android:id="@+id/nav_label"
             android:icon="@drawable/ic_baseline_label_24"
             android:title="Create Label"/>
+
+
+        <item android:id="@+id/nav_reminder"
+            android:icon="@drawable/ic_baseline_doorbell_24"
+            android:title="Reminder Notes"/>
     </group>
 
     <item android:title="Options">

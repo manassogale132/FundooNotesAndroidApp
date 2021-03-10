@@ -1,5 +1,12 @@
 package com.example.myfirstapplication.MyAdapter
 
+import android.app.AlertDialog
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.content.DialogInterface
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,12 +17,25 @@ import com.example.myfirstapplication.R
 import com.example.myfirstapplication.UserData.Notes
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.orhanobut.dialogplus.DialogPlus
 import com.orhanobut.dialogplus.ViewHolder
+import kotlinx.android.synthetic.main.fragment_addnote.*
 import kotlin.collections.HashMap
 
 class MyAdapter(options: FirebaseRecyclerOptions<Notes>,val onLabelItemClicked : (position : Int, note : Notes)-> Unit) : FirebaseRecyclerAdapter<Notes, MyAdapter.MyViewHolder>(options) {
+
+    private lateinit var auth: FirebaseAuth
+    var databaseReference : DatabaseReference? = null
+    var database : FirebaseDatabase? = null
+
+    lateinit var notificationManager: NotificationManager
+    lateinit var notificationChannel: NotificationChannel
+    lateinit var builder : Notification.Builder
+    private val channelId = "com.example.myfirstapplication.Fragments"
+    private val desctiption = "Reminder Test Notification"
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -76,6 +96,55 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,val onLabelItemClicked :
         holder.loadLabelFragment.setOnClickListener {
                 onLabelItemClicked(p1,note)
         }
+
+        holder.remainderBellBtn.setOnClickListener {
+
+            val builder : AlertDialog.Builder = AlertDialog.Builder(holder.textTitle.context)
+            builder.setTitle("Reminder Panel")
+            builder.setMessage("Add to Reminder notes list?")
+
+            val myView : Context? = builder.context
+
+            builder.setPositiveButton("Yes", DialogInterface.OnClickListener { _, _ ->
+                auth = FirebaseAuth.getInstance()
+                database = FirebaseDatabase.getInstance()
+                notificationManager =  myView?.applicationContext!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+                getRef(p1).key?.let { it1 ->
+                    databaseReference = database?.reference!!.child("reminder notes collection").child(it1)
+
+                    val userId = auth.currentUser?.uid
+                    val title = note.title
+                    val description = note.description
+                    val noteId = databaseReference?.key
+                    val notes = Notes(userId,title, description,noteId)
+                    databaseReference?.setValue(notes)
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        notificationChannel = NotificationChannel(channelId,desctiption,NotificationManager.IMPORTANCE_HIGH)
+                        notificationChannel.enableVibration(false)
+                        notificationManager.createNotificationChannel(notificationChannel)
+
+                        this.builder = Notification.Builder(myView.applicationContext,channelId)
+                            .setContentTitle("Notes App Alert")
+                            .setContentText("Note added to reminder list")
+                            .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+                    }
+                    else{
+                        this.builder = Notification.Builder(myView.applicationContext)
+                            .setContentTitle("Notes App Alert")
+                            .setContentText("Note added to reminder list")
+                            .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+                    }
+                    notificationManager.notify(1234,this.builder.build())
+
+                    Toast.makeText(myView?.applicationContext, "Added to reminder list!", Toast.LENGTH_SHORT).show();
+                }
+            })
+            builder.setNegativeButton("No", DialogInterface.OnClickListener { _, _ ->
+            })
+            builder.show()
+        }
     }
 
    public fun deleteItem(position : Int){
@@ -87,6 +156,7 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,val onLabelItemClicked :
         var textDescription : TextView = itemView.findViewById(R.id.textViewDescriptionItem)
         var updateBtn : ImageView = itemView.findViewById(R.id.updateICon)
         var loadLabelFragment : ImageView = itemView.findViewById(R.id.addLabelToItemBtn)
+        var remainderBellBtn : ImageButton = itemView.findViewById(R.id.remainderBellBtn)
     }
 }
 

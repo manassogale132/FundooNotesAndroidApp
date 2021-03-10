@@ -13,10 +13,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.bumptech.glide.Glide
-import com.example.myfirstapplication.Fragments.AddNoteFragment
-import com.example.myfirstapplication.Fragments.LabelFragment
-import com.example.myfirstapplication.Fragments.NotesFragment
-import com.example.myfirstapplication.Fragments.ProfileFragment
+import com.example.myfirstapplication.Fragments.*
 import com.example.myfirstapplication.R
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -80,6 +77,12 @@ class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemS
             R.id.nav_label -> {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container,
                     LabelFragment()
+                ).commit()
+                viewIsAtHome = false
+            }
+            R.id.nav_reminder -> {
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container,
+                    ReminderNotesFragment()
                 ).commit()
                 viewIsAtHome = false
             }
