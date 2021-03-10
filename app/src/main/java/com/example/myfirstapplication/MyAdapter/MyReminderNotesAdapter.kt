@@ -3,8 +3,6 @@ package com.example.myfirstapplication.MyAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapplication.R
@@ -23,6 +21,10 @@ class MyReminderNotesAdapter(options: FirebaseRecyclerOptions<Notes>): FirebaseR
     override fun onBindViewHolder(holder: MyViewHolder, position: Int, model: Notes) {
         holder.textTitle.text = model.title
         holder.textDescription.text = model.description
+    }
+
+    override fun getItem(position: Int): Notes {
+        return super.getItem(itemCount - 1 - position)
     }
 
     public fun deleteItem(position : Int){

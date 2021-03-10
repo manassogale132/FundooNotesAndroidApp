@@ -118,6 +118,7 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,val onLabelItemClicked :
                     val description = note.description
                     val noteId = databaseReference?.key
                     val notes = Notes(userId,title, description,noteId)
+
                     databaseReference?.setValue(notes)
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

@@ -74,7 +74,7 @@ class ReminderNotesFragment : Fragment()  {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 myReminderNotesAdapter.deleteItem(viewHolder.adapterPosition)
-                Toast.makeText(activity, "Reminder Note deleted!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "Note deleted from reminder list!", Toast.LENGTH_SHORT).show()
             }
         }).attachToRecyclerView(recyclerviewReminderNotesList)
     }
