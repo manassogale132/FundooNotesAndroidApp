@@ -1,5 +1,6 @@
 package com.example.myfirstapplication.MyAdapter
 
+import android.annotation.SuppressLint
 import android.app.*
 import android.content.Context
 import android.content.DialogInterface
@@ -20,36 +21,53 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.orhanobut.dialogplus.DialogPlus
 import com.orhanobut.dialogplus.ViewHolder
+import kotlinx.android.synthetic.main.dialog_reminder_date_time_picker.*
 import kotlinx.android.synthetic.main.fragment_addnote.*
 import java.text.DateFormat
+import java.time.Year
+import java.util.*
 import kotlin.collections.HashMap
 
-class MyAdapter(options: FirebaseRecyclerOptions<Notes>,val onLabelItemClicked : (position : Int, note : Notes)-> Unit) : FirebaseRecyclerAdapter<Notes, MyAdapter.MyViewHolder>(options) {
+class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
+    val onLabelItemClicked: (position: Int, note: Notes) -> Unit) : FirebaseRecyclerAdapter<Notes, MyAdapter.MyViewHolder>(options)
+    ,DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener {
 
     private lateinit var auth: FirebaseAuth
-    var databaseReference : DatabaseReference? = null
-    var database : FirebaseDatabase? = null
+    var databaseReference: DatabaseReference? = null
+    var database: FirebaseDatabase? = null
+
+    var day = 0
+    var month = 0
+    var year = 0
+    var hour = 0
+    var minute = 0
+
+    var savedDay = 0
+    var savedMonth = 0
+    var savedYear = 0
+    var savedHour = 0
+    var savedMinute = 0
 
     lateinit var notificationManager: NotificationManager
     lateinit var notificationChannel: NotificationChannel
-    lateinit var builder : Notification.Builder
+    lateinit var builder: Notification.Builder
     private val channelId = "com.example.myfirstapplication.Fragments"
     private val desctiption = "Reminder Test Notification"
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.item_view,parent,false)
-        return  MyViewHolder(view)
+        val view = inflater.inflate(R.layout.item_view, parent, false)
+        return MyViewHolder(view)
     }
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onBindViewHolder(holder: MyViewHolder, p1: Int, note: Notes) {
         holder.textTitle.text = note.title
         holder.textDescription.text = note.description
 
         Log.e("test", "onBindViewHolder: ${note.noteId}")
-
+        //------------------------------------------------------------------------------------------------------------------
         holder.updateBtn.setOnClickListener {
             val dialogPlus = DialogPlus.newDialog(holder.textTitle.context)
                 .setContentHolder(ViewHolder(R.layout.dialog_content))
@@ -78,31 +96,25 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,val onLabelItemClicked :
                 map["description"] = description.text.toString()
 
                 getRef(p1).key?.let { it1 ->
-                    FirebaseDatabase.getInstance().reference.child("notes collection")
-                        .child(it1).updateChildren(map)
+                    FirebaseDatabase.getInstance().reference.child("notes collection").child(it1).updateChildren(map)
                         .addOnSuccessListener {
                             dialogPlus.dismiss()
                             title.clearFocus()
                             description.clearFocus()
-                            Toast.makeText(myView.getContext(), "Note Updated!", Toast.LENGTH_SHORT)
-                                .show();
+                            Toast.makeText(myView.getContext(), "Note Updated!", Toast.LENGTH_SHORT).show();
                         }
                         .addOnFailureListener {
                             dialogPlus.dismiss()
-                            Toast.makeText(
-                                myView.getContext(),
-                                "Error while updating!",
-                                Toast.LENGTH_SHORT
-                            ).show();
+                            Toast.makeText(myView.getContext(), "Error while updating!", Toast.LENGTH_SHORT).show();
                         }
                 }
             }
         }
-
+        //------------------------------------------------------------------------------------------------------------------
         holder.loadLabelFragment.setOnClickListener {
             onLabelItemClicked(p1, note)
         }
-
+        //------------------------------------------------------------------------------------------------------------------
         holder.remainderBellBtn.setOnClickListener {
             val dialogPlus = DialogPlus.newDialog(holder.textTitle.context)
                 .setContentHolder(ViewHolder(R.layout.dialog_reminder_date_time_picker))
@@ -120,14 +132,23 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,val onLabelItemClicked :
                 dialogPlus.dismiss()
             }
 
-            dateTimePickerBtn.setOnClickListener {
 
+            dateTimePickerBtn.setOnClickListener {
+                val cal : Calendar = Calendar.getInstance()
+                day = cal.get(Calendar.DAY_OF_MONTH)
+                month = cal.get(Calendar.MONTH)
+                year = cal.get(Calendar.YEAR)
+                hour = cal.get(Calendar.HOUR)
+                minute = cal.get(Calendar.MINUTE)
+
+                DatePickerDialog(it.context,this,year,month,day).show()
             }
+            textViewTimeDate.text = "$savedDay-$savedMonth-$savedYear\n Hour: $savedHour Minute: $savedMinute"
 
             addNoteItemToReminderBtn.setOnClickListener {
                 auth = FirebaseAuth.getInstance()
                 database = FirebaseDatabase.getInstance()
-                notificationManager =  myView?.context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                notificationManager = myView.context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
                 getRef(p1).key?.let { it1 ->
                     databaseReference = database?.reference!!.child("reminder notes collection").child(it1)
@@ -136,45 +157,72 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,val onLabelItemClicked :
                     val title = note.title
                     val description = note.description
                     val noteId = databaseReference?.key
-                    val notes = Notes(userId,title, description,noteId)
+                    val notes = Notes(userId, title, description, noteId)
 
                     databaseReference?.setValue(notes)
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        notificationChannel = NotificationChannel(channelId,desctiption,NotificationManager.IMPORTANCE_HIGH)
+                        notificationChannel = NotificationChannel(
+                            channelId,
+                            desctiption,
+                            NotificationManager.IMPORTANCE_HIGH
+                        )
                         notificationChannel.enableVibration(false)
                         notificationManager.createNotificationChannel(notificationChannel)
 
-                        this.builder = Notification.Builder(myView.context,channelId)
-                            .setContentTitle("Fundoo Notes Alert")
-                            .setContentText("Note added to reminder list.")
+                        this.builder = Notification.Builder(myView.context, channelId)
+                            .setContentTitle("Fundoo Notes Alert.")
+                            .setContentText("Note added to reminder list!")
                             .setSmallIcon(R.drawable.ic_baseline_notifications_24)
-                    }
-                    else{
+                    } else {
                         this.builder = Notification.Builder(myView.context)
-                            .setContentTitle("Fundoo Notes Alert")
-                            .setContentText("Note added to reminder list.")
+                            .setContentTitle("Fundoo Notes Alert.")
+                            .setContentText("Note added to reminder list!")
                             .setSmallIcon(R.drawable.ic_baseline_notifications_24)
                     }
-                    notificationManager.notify(1234,this.builder.build())
+                    notificationManager.notify(1234, this.builder.build())
                     Toast.makeText(myView.context, "Added to reminder list!", Toast.LENGTH_SHORT).show();
                 }
             }
         }
+        //------------------------------------------------------------------------------------------------------------------
+    }
+    //------------------------------------------------------------------------------------------------------------------
+    public fun deleteItem(position: Int) {
+        snapshots.getSnapshot(position).ref.removeValue()
+    }
+    //------------------------------------------------------------------------------------------------------------------
+    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var textTitle: TextView = itemView.findViewById(R.id.textViewTitleItem)
+        var textDescription: TextView = itemView.findViewById(R.id.textViewDescriptionItem)
+        var updateBtn: ImageView = itemView.findViewById(R.id.updateICon)
+        var loadLabelFragment: ImageView = itemView.findViewById(R.id.addLabelToItemBtn)
+        var remainderBellBtn: ImageButton = itemView.findViewById(R.id.remainderBellBtn)
+    }
+    //------------------------------------------------------------------------------------------------------------------
+    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+        savedDay = dayOfMonth
+        savedMonth = month
+        savedYear = year
+
+        val cal : Calendar = Calendar.getInstance()
+        day = cal.get(Calendar.DAY_OF_MONTH)
+        this.month = cal.get(Calendar.MONTH)
+        this.year = cal.get(Calendar.YEAR)
+        hour = cal.get(Calendar.HOUR)
+        minute = cal.get(Calendar.MINUTE)
+
+        TimePickerDialog(view?.context,this,hour,minute,true).show()
     }
 
-        public fun deleteItem(position: Int) {
-            snapshots.getSnapshot(position).ref.removeValue()
-        }
+    override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+        savedHour = hourOfDay
+        savedMinute = minute
 
-        class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            var textTitle: TextView = itemView.findViewById(R.id.textViewTitleItem)
-            var textDescription: TextView = itemView.findViewById(R.id.textViewDescriptionItem)
-            var updateBtn: ImageView = itemView.findViewById(R.id.updateICon)
-            var loadLabelFragment: ImageView = itemView.findViewById(R.id.addLabelToItemBtn)
-            var remainderBellBtn: ImageButton = itemView.findViewById(R.id.remainderBellBtn)
-        }
+       //textViewTimeDate.text = "$savedDay-$savedMonth-$savedYear\n Hour: $savedHour Minute: $savedMinute"
     }
+    //------------------------------------------------------------------------------------------------------------------
+}
 
 
 

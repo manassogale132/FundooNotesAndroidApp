@@ -1,9 +1,15 @@
 package com.example.myfirstapplication.Fragments
 
+import android.annotation.SuppressLint
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.DatePicker
+import android.widget.TimePicker
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
@@ -15,10 +21,13 @@ import com.example.myfirstapplication.UserData.Notes
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.dialog_reminder_date_time_picker.*
 import kotlinx.android.synthetic.main.fragment_notes.*
+import java.util.*
+import kotlin.time.days
 
 
-class NotesFragment : Fragment()  {
+class NotesFragment : Fragment() {
 
     lateinit var recyclerViewList : RecyclerView
     lateinit var myAdapter: MyAdapter
