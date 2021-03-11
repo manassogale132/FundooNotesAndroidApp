@@ -28,7 +28,7 @@ class NoteLabelFragment: Fragment()   {
     var database : FirebaseDatabase? = null
 
     var noteID : String? = null
-
+    //------------------------------------------------------------------------------------------------------------------
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_label_checkbox, container, false)
 
@@ -47,7 +47,7 @@ class NoteLabelFragment: Fragment()   {
 
         return view
     }
-
+    //------------------------------------------------------------------------------------------------------------------
     private fun loadDataIntoRecycler(){
 
         val options: FirebaseRecyclerOptions<Label> = FirebaseRecyclerOptions.Builder<Label>()
@@ -88,7 +88,7 @@ class NoteLabelFragment: Fragment()   {
         super.onStop()
         myLabelCheckBoxAdapter.stopListening()
     }
-
+    //------------------------------------------------------------------------------------------------------------------
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -98,4 +98,5 @@ class NoteLabelFragment: Fragment()   {
             )?.commit()
         }
     }
+    //------------------------------------------------------------------------------------------------------------------
 }

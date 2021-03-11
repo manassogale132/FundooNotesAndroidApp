@@ -51,14 +51,14 @@ class AddNoteFragment : Fragment()  {
                    notificationManager.createNotificationChannel(notificationChannel)
 
                    builder = Notification.Builder(context,channelId)
-                       .setContentTitle("Notes App Alert")
-                       .setContentText("Note added")
+                       .setContentTitle("Fundoo Notes Alert.")
+                       .setContentText("Note added!")
                        .setSmallIcon(R.drawable.ic_baseline_notifications_24)
                }
                else{
                    builder = Notification.Builder(context)
-                       .setContentTitle("Notes App Alert")
-                       .setContentText("Note added")
+                       .setContentTitle("Fundoo Notes Alert.")
+                       .setContentText("Note added!")
                        .setSmallIcon(R.drawable.ic_baseline_notifications_24)
                }
                notificationManager.notify(1234,builder.build())

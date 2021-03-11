@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#177CD6">
+
+        <TextView
+            android:layout_width="360dp"
+            android:layout_height="50dp"
+            android:text="Reminder Note"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="#fff"
+            android:textStyle="bold"
+            android:textSize="25sp" />
+
+        <ImageView
+            android:id="@+id/closeReminderNoteDialog"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_baseline_close_24"
+            app:tint="@color/white" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/dateTimePickerBtn"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="Date/Time"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        app:backgroundTint="#177CD6" />
+
+    <TextView
+        android:id="@+id/textViewTimeDate"
+        android:layout_width="300dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="5dp"
+        android:layout_height="wrap_content"
+        android:hint="Time and Date"
+        android:padding="10dp"
+        android:background="@drawable/custom_background"
+        android:textSize="20dp"/>
+
+    <Button
+        android:id="@+id/addNoteItemToReminderBtn"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="Add to reminder"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        app:backgroundTint="#177CD6" />
+
+</LinearLayout>

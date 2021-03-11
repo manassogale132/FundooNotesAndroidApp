@@ -23,9 +23,6 @@ class MyReminderNotesAdapter(options: FirebaseRecyclerOptions<Notes>): FirebaseR
         holder.textDescription.text = model.description
     }
 
-    override fun getItem(position: Int): Notes {
-        return super.getItem(itemCount - 1 - position)
-    }
 
     public fun deleteItem(position : Int){
         snapshots.getSnapshot(position).ref.removeValue()

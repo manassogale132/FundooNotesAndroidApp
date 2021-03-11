@@ -9,6 +9,8 @@ class Notes {
     var creationTime : Long = System.currentTimeMillis()
     var noteId : String?=null
 
+    var labels : List<Label> = emptyList()
+
     constructor(){
 
     }

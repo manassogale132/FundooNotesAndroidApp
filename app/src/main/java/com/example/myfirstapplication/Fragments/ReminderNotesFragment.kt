@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myfirstapplication.MyAdapter.MyAdapter
 import com.example.myfirstapplication.MyAdapter.MyLabelCheckBoxAdapter
 import com.example.myfirstapplication.MyAdapter.MyReminderNotesAdapter
 import com.example.myfirstapplication.R
@@ -44,10 +45,9 @@ class ReminderNotesFragment : Fragment()  {
 
         val options: FirebaseRecyclerOptions<Notes> = FirebaseRecyclerOptions.Builder<Notes>()
             .setQuery(FirebaseDatabase.getInstance().reference.child("reminder notes collection")
-                    .orderByChild("creationTime"), Notes::class.java).build()
+                .orderByChild("creationTime"), Notes::class.java).build()
 
         myReminderNotesAdapter = MyReminderNotesAdapter(options)
-        myReminderNotesAdapter.notifyDataSetChanged()
         recyclerviewReminderNotesList.adapter = myReminderNotesAdapter
     }
     override fun onStart() {

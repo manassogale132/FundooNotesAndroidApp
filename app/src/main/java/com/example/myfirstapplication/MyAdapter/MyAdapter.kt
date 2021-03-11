@@ -1,9 +1,6 @@
 package com.example.myfirstapplication.MyAdapter
 
-import android.app.AlertDialog
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
+import android.app.*
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Build
@@ -12,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapplication.R
 import com.example.myfirstapplication.UserData.Notes
@@ -23,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.orhanobut.dialogplus.DialogPlus
 import com.orhanobut.dialogplus.ViewHolder
 import kotlinx.android.synthetic.main.fragment_addnote.*
+import java.text.DateFormat
 import kotlin.collections.HashMap
 
 class MyAdapter(options: FirebaseRecyclerOptions<Notes>,val onLabelItemClicked : (position : Int, note : Notes)-> Unit) : FirebaseRecyclerAdapter<Notes, MyAdapter.MyViewHolder>(options) {
@@ -37,12 +36,14 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,val onLabelItemClicked :
     private val channelId = "com.example.myfirstapplication.Fragments"
     private val desctiption = "Reminder Test Notification"
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.item_view,parent,false)
         return  MyViewHolder(view)
     }
 
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onBindViewHolder(holder: MyViewHolder, p1: Int, note: Notes) {
         holder.textTitle.text = note.title
         holder.textDescription.text = note.description
@@ -52,13 +53,13 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,val onLabelItemClicked :
         holder.updateBtn.setOnClickListener {
             val dialogPlus = DialogPlus.newDialog(holder.textTitle.context)
                 .setContentHolder(ViewHolder(R.layout.dialog_content))
-                .setExpanded(true,2300).create()
+                .setExpanded(true, 2300).create()
 
-            val myView : View = dialogPlus.holderView
-            val title : EditText = myView.findViewById(R.id.titleDialog)
-            val description : EditText = myView.findViewById(R.id.descriptionDialog)
-            val updateBTN : Button = myView.findViewById(R.id.updateButton)
-            val close : ImageView = myView.findViewById(R.id.closeDialog)
+            val myView: View = dialogPlus.holderView
+            val title: EditText = myView.findViewById(R.id.titleDialog)
+            val description: EditText = myView.findViewById(R.id.descriptionDialog)
+            val updateBTN: Button = myView.findViewById(R.id.updateButton)
+            val close: ImageView = myView.findViewById(R.id.closeDialog)
 
             title.setText(note.title)
             description.setText(note.description)
@@ -83,32 +84,50 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,val onLabelItemClicked :
                             dialogPlus.dismiss()
                             title.clearFocus()
                             description.clearFocus()
-                            Toast.makeText(myView.getContext(), "Note Updated!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(myView.getContext(), "Note Updated!", Toast.LENGTH_SHORT)
+                                .show();
                         }
                         .addOnFailureListener {
                             dialogPlus.dismiss()
-                            Toast.makeText(myView.getContext(), "Error while updating!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(
+                                myView.getContext(),
+                                "Error while updating!",
+                                Toast.LENGTH_SHORT
+                            ).show();
                         }
                 }
             }
         }
 
         holder.loadLabelFragment.setOnClickListener {
-                onLabelItemClicked(p1,note)
+            onLabelItemClicked(p1, note)
         }
 
         holder.remainderBellBtn.setOnClickListener {
+            val dialogPlus = DialogPlus.newDialog(holder.textTitle.context)
+                .setContentHolder(ViewHolder(R.layout.dialog_reminder_date_time_picker))
+                .setExpanded(true, 2300).create()
 
-            val builder : AlertDialog.Builder = AlertDialog.Builder(holder.textTitle.context)
-            builder.setTitle("Reminder Panel")
-            builder.setMessage("Add to Reminder notes list?")
+            val myView: View = dialogPlus.holderView
+            val dateTimePickerBtn: Button = myView.findViewById(R.id.dateTimePickerBtn)
+            val textViewTimeDate: TextView = myView.findViewById(R.id.textViewTimeDate)
+            val addNoteItemToReminderBtn: Button = myView.findViewById(R.id.addNoteItemToReminderBtn)
+            val closeReminderNoteDialog: ImageView = myView.findViewById(R.id.closeReminderNoteDialog)
 
-            val myView : Context? = builder.context
+            dialogPlus.show()
 
-            builder.setPositiveButton("Yes", DialogInterface.OnClickListener { _, _ ->
+            closeReminderNoteDialog.setOnClickListener {
+                dialogPlus.dismiss()
+            }
+
+            dateTimePickerBtn.setOnClickListener {
+
+            }
+
+            addNoteItemToReminderBtn.setOnClickListener {
                 auth = FirebaseAuth.getInstance()
                 database = FirebaseDatabase.getInstance()
-                notificationManager =  myView?.applicationContext!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                notificationManager =  myView?.context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
                 getRef(p1).key?.let { it1 ->
                     databaseReference = database?.reference!!.child("reminder notes collection").child(it1)
@@ -126,40 +145,37 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,val onLabelItemClicked :
                         notificationChannel.enableVibration(false)
                         notificationManager.createNotificationChannel(notificationChannel)
 
-                        this.builder = Notification.Builder(myView.applicationContext,channelId)
-                            .setContentTitle("Notes App Alert")
-                            .setContentText("Note added to reminder list")
+                        this.builder = Notification.Builder(myView.context,channelId)
+                            .setContentTitle("Fundoo Notes Alert")
+                            .setContentText("Note added to reminder list.")
                             .setSmallIcon(R.drawable.ic_baseline_notifications_24)
                     }
                     else{
-                        this.builder = Notification.Builder(myView.applicationContext)
-                            .setContentTitle("Notes App Alert")
-                            .setContentText("Note added to reminder list")
+                        this.builder = Notification.Builder(myView.context)
+                            .setContentTitle("Fundoo Notes Alert")
+                            .setContentText("Note added to reminder list.")
                             .setSmallIcon(R.drawable.ic_baseline_notifications_24)
                     }
                     notificationManager.notify(1234,this.builder.build())
-
-                    Toast.makeText(myView?.applicationContext, "Added to reminder list!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(myView.context, "Added to reminder list!", Toast.LENGTH_SHORT).show();
                 }
-            })
-            builder.setNegativeButton("No", DialogInterface.OnClickListener { _, _ ->
-            })
-            builder.show()
+            }
         }
     }
 
-   public fun deleteItem(position : Int){
-        snapshots.getSnapshot(position).ref.removeValue()
+        public fun deleteItem(position: Int) {
+            snapshots.getSnapshot(position).ref.removeValue()
+        }
+
+        class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            var textTitle: TextView = itemView.findViewById(R.id.textViewTitleItem)
+            var textDescription: TextView = itemView.findViewById(R.id.textViewDescriptionItem)
+            var updateBtn: ImageView = itemView.findViewById(R.id.updateICon)
+            var loadLabelFragment: ImageView = itemView.findViewById(R.id.addLabelToItemBtn)
+            var remainderBellBtn: ImageButton = itemView.findViewById(R.id.remainderBellBtn)
+        }
     }
 
-    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        var textTitle : TextView = itemView.findViewById(R.id.textViewTitleItem)
-        var textDescription : TextView = itemView.findViewById(R.id.textViewDescriptionItem)
-        var updateBtn : ImageView = itemView.findViewById(R.id.updateICon)
-        var loadLabelFragment : ImageView = itemView.findViewById(R.id.addLabelToItemBtn)
-        var remainderBellBtn : ImageButton = itemView.findViewById(R.id.remainderBellBtn)
-    }
-}
 
 
 
