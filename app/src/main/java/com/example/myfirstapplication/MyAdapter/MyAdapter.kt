@@ -29,8 +29,7 @@ import java.util.*
 import kotlin.collections.HashMap
 
 class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
-    val onLabelItemClicked: (position: Int, note: Notes) -> Unit) : FirebaseRecyclerAdapter<Notes, MyAdapter.MyViewHolder>(options)
-    ,DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener {
+    val onLabelItemClicked: (position: Int, note: Notes) -> Unit) : FirebaseRecyclerAdapter<Notes, MyAdapter.MyViewHolder>(options) {
 
     private lateinit var auth: FirebaseAuth
     var databaseReference: DatabaseReference? = null
@@ -132,7 +131,6 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
                 dialogPlus.dismiss()
             }
 
-
             dateTimePickerBtn.setOnClickListener {
                 val cal : Calendar = Calendar.getInstance()
                 day = cal.get(Calendar.DAY_OF_MONTH)
@@ -141,9 +139,30 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
                 hour = cal.get(Calendar.HOUR)
                 minute = cal.get(Calendar.MINUTE)
 
-                DatePickerDialog(it.context,this,year,month,day).show()
+                DatePickerDialog(it.context,object : DatePickerDialog.OnDateSetListener {
+                    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+                        savedDay = dayOfMonth
+                        savedMonth = month
+                        savedYear = year
+
+                        val cal : Calendar = Calendar.getInstance()
+                        day = cal.get(Calendar.DAY_OF_MONTH)
+                        this@MyAdapter.month = cal.get(Calendar.MONTH)
+                        this@MyAdapter.year = cal.get(Calendar.YEAR)
+                        hour = cal.get(Calendar.HOUR)
+                        minute = cal.get(Calendar.MINUTE)
+
+                        TimePickerDialog(view?.context,object : TimePickerDialog.OnTimeSetListener {
+                            override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+                                savedHour = hourOfDay
+                                savedMinute = minute
+
+                                textViewTimeDate.text = "Date: $savedDay/$savedMonth/$savedYear, Time: $savedHour:$savedMinute"
+                            }
+                        },hour,minute,true).show()
+                    }
+                } ,year,month,day).show()
             }
-            textViewTimeDate.text = "$savedDay-$savedMonth-$savedYear\n Hour: $savedHour Minute: $savedMinute"
 
             addNoteItemToReminderBtn.setOnClickListener {
                 auth = FirebaseAuth.getInstance()
@@ -199,28 +218,6 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
         var updateBtn: ImageView = itemView.findViewById(R.id.updateICon)
         var loadLabelFragment: ImageView = itemView.findViewById(R.id.addLabelToItemBtn)
         var remainderBellBtn: ImageButton = itemView.findViewById(R.id.remainderBellBtn)
-    }
-    //------------------------------------------------------------------------------------------------------------------
-    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        savedDay = dayOfMonth
-        savedMonth = month
-        savedYear = year
-
-        val cal : Calendar = Calendar.getInstance()
-        day = cal.get(Calendar.DAY_OF_MONTH)
-        this.month = cal.get(Calendar.MONTH)
-        this.year = cal.get(Calendar.YEAR)
-        hour = cal.get(Calendar.HOUR)
-        minute = cal.get(Calendar.MINUTE)
-
-        TimePickerDialog(view?.context,this,hour,minute,true).show()
-    }
-
-    override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-        savedHour = hourOfDay
-        savedMinute = minute
-
-       //textViewTimeDate.text = "$savedDay-$savedMonth-$savedYear\n Hour: $savedHour Minute: $savedMinute"
     }
     //------------------------------------------------------------------------------------------------------------------
 }
