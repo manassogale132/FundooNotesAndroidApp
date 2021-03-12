@@ -146,18 +146,18 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
                         savedYear = year
 
                         val cal : Calendar = Calendar.getInstance()
-                        day = cal.get(Calendar.DAY_OF_MONTH)
-                        this@MyAdapter.month = cal.get(Calendar.MONTH)
-                        this@MyAdapter.year = cal.get(Calendar.YEAR)
-                        hour = cal.get(Calendar.HOUR)
-                        minute = cal.get(Calendar.MINUTE)
+                        cal.set(Calendar.DAY_OF_MONTH,dayOfMonth)
+                        cal.set(Calendar.MONTH,month)
+                        cal.set(Calendar.YEAR,year)
+
+                        val currentDateString : String = DateFormat.getDateInstance().format(cal.time)
 
                         TimePickerDialog(view?.context,object : TimePickerDialog.OnTimeSetListener {
                             override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
                                 savedHour = hourOfDay
                                 savedMinute = minute
 
-                                textViewTimeDate.text = "Date: $savedDay/$savedMonth/$savedYear, Time: $savedHour:$savedMinute"
+                                textViewTimeDate.text = "Date: $currentDateString, Time: $savedHour:$savedMinute"
                             }
                         },hour,minute,true).show()
                     }
