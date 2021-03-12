@@ -84,8 +84,7 @@ class ReminderNotesFragment : Fragment()  {
         floatingBtnToGrid.setOnClickListener {
             if(i == 0) {
                 // recyclerViewList.layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
-                recyclerviewReminderNotesList.layoutManager =
-                    GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
+                recyclerviewReminderNotesList.layoutManager = GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
                 Toast.makeText(activity, "Switched to grid view!", Toast.LENGTH_SHORT).show();
                 i++
             }

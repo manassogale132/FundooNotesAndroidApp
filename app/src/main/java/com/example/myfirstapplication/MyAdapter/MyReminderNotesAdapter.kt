@@ -21,6 +21,7 @@ class MyReminderNotesAdapter(options: FirebaseRecyclerOptions<Notes>): FirebaseR
     override fun onBindViewHolder(holder: MyViewHolder, position: Int, model: Notes) {
         holder.textTitle.text = model.title
         holder.textDescription.text = model.description
+        holder.textViewTimeAndDateReminder.text = model.noteReminderTimeDate
     }
 
 
@@ -31,5 +32,7 @@ class MyReminderNotesAdapter(options: FirebaseRecyclerOptions<Notes>): FirebaseR
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         var textTitle : TextView = itemView.findViewById(R.id.textViewTitleItem)
         var textDescription : TextView = itemView.findViewById(R.id.textViewDescriptionItem)
+        var textViewTimeAndDateReminder : TextView = itemView.findViewById(R.id.textViewTimeAndDateReminder)
+
     }
 }

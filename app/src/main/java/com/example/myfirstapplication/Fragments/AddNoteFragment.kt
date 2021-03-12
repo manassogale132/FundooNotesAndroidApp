@@ -77,8 +77,9 @@ class AddNoteFragment : Fragment()  {
             val title = editTextTitle.editableText.toString()
             val description = editTextDescription.editableText.toString()
             val noteId = noteDataBaseReference?.key
+            val noteReminderTimeDate = null
 
-            val notes = Notes(userId,title, description,noteId)
+            val notes = Notes(userId,title, description,noteId,noteReminderTimeDate)
             noteDataBaseReference?.setValue(notes)
 
             Toast.makeText(activity, "Note saved!", Toast.LENGTH_SHORT).show();

@@ -157,7 +157,8 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
                     val title = note.title
                     val description = note.description
                     val noteId = databaseReference?.key
-                    val notes = Notes(userId, title, description, noteId)
+                    val noteReminderTimeDate = textViewTimeDate.text.toString()
+                    val notes = Notes(userId, title, description, noteId,noteReminderTimeDate)
 
                     databaseReference?.setValue(notes)
 
