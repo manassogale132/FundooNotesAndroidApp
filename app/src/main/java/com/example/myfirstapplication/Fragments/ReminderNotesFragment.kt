@@ -21,7 +21,6 @@ import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_label_checkbox.*
 import kotlinx.android.synthetic.main.fragment_notes.*
 import kotlinx.android.synthetic.main.fragment_remainder.*
-import kotlinx.android.synthetic.main.fragment_remainder.floatingBtnToGrid
 
 class ReminderNotesFragment : Fragment()  {
 
@@ -63,7 +62,6 @@ class ReminderNotesFragment : Fragment()  {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         swipeRightToDeleteItemFromRecyclerView()
-        addClickToGridButton()
     }
     //------------------------------------------------------------------------------------------------------------------
     private fun swipeRightToDeleteItemFromRecyclerView(){
@@ -79,22 +77,4 @@ class ReminderNotesFragment : Fragment()  {
         }).attachToRecyclerView(recyclerviewReminderNotesList)
     }
     //------------------------------------------------------------------------------------------------------------------
-    private fun addClickToGridButton(){
-        var i : Int =0
-        floatingBtnToGrid.setOnClickListener {
-            if(i == 0) {
-                // recyclerViewList.layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
-                recyclerviewReminderNotesList.layoutManager = GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
-                Toast.makeText(activity, "Switched to grid view!", Toast.LENGTH_SHORT).show();
-                i++
-            }
-            else if (i == 1){
-                recyclerviewReminderNotesList.layoutManager = LinearLayoutManager(context)
-                Toast.makeText(activity, "Switched to list view!", Toast.LENGTH_SHORT).show();
-                i = 0
-            }
-        }
-    }
-    //------------------------------------------------------------------------------------------------------------------
-
 }

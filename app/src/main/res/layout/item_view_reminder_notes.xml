@@ -55,8 +55,7 @@
             app:cardCornerRadius="10dp"
             app:cardElevation="5dp"
             android:layout_gravity="start"
-            app:cardBackgroundColor="#177CD6"
-            android:layout_alignParentBottom="true">
+            app:cardBackgroundColor="#177CD6">
 
         <TextView
             android:id="@+id/textViewTimeAndDateReminder"
@@ -69,7 +68,8 @@
             android:fontFamily="@font/custon_font2"
             android:gravity="end"
             android:textColor="@color/white"
-            android:hint="Reminder Time/Date" />
+            android:hint="Reminder Time/Date"
+            android:textColorHint="@color/white"/>
         </androidx.cardview.widget.CardView>
 
     </LinearLayout>

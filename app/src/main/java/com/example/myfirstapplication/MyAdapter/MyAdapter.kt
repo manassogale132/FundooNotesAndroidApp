@@ -140,7 +140,6 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
                 hour = cal.get(Calendar.HOUR)
                 minute = cal.get(Calendar.MINUTE)
 
-
                 DatePickerDialog(it.context,object : DatePickerDialog.OnDateSetListener {
                     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
                         savedDay = dayOfMonth
@@ -167,10 +166,10 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
                                 val format : SimpleDateFormat = SimpleDateFormat("k:mm a")
                                 val time : String = format.format(cal.time)
 
-                                textViewTimeDate.text = "Date: $currentDateString, Time: $time"
+                                textViewTimeDate.text = "$currentDateString, $time"
 
                                 val notifyMe: NotifyMe.Builder = NotifyMe.Builder(view?.context)
-                                notifyMe.title("Reminder! Title : ${note.title}");
+                                notifyMe.title("Title : ${note.title} (Reminder!) ");
                                 notifyMe.content("Description : ${note.description}");
                                 notifyMe.color( 225,225,225,225);//Color of notification header
                                 notifyMe.time(cal);//The time to popup notification
