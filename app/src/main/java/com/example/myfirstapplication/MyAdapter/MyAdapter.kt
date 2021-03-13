@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.icu.text.TimeZoneFormat
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
@@ -24,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.orhanobut.dialogplus.DialogPlus
 import com.orhanobut.dialogplus.ViewHolder
 import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -153,6 +155,7 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
                         val currentDateString : String = DateFormat.getDateInstance().format(cal.time)
 
                         TimePickerDialog(it.context,object : TimePickerDialog.OnTimeSetListener {
+                            @SuppressLint("SimpleDateFormat")
                             override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
                                 savedHour = hourOfDay
                                 savedMinute = minute
@@ -160,19 +163,22 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
                                 val cal : Calendar = Calendar.getInstance()
                                 cal.set(Calendar.HOUR,hourOfDay)
                                 cal.set(Calendar.MINUTE,minute)
+                                cal.timeZone(TimeZone.getDefault())
+                                val format : SimpleDateFormat = SimpleDateFormat("k:mm a")
+                                val time : String = format.format(cal.time)
 
-                                textViewTimeDate.text = "Date: $currentDateString, Time: $savedHour:$savedMinute"
+                                textViewTimeDate.text = "Date: $currentDateString, Time: $time"
 
                                 val notifyMe: NotifyMe.Builder = NotifyMe.Builder(view?.context)
-                                notifyMe.title("Fundoo Notes Reminder Alert!");
-                                notifyMe.content("Title : ${note.title} | Description : ${note.description}");
+                                notifyMe.title("Reminder! Title : ${note.title}");
+                                notifyMe.content("Description : ${note.description}");
                                 notifyMe.color( 225,225,225,225);//Color of notification header
                                 notifyMe.time(cal);//The time to popup notification
                                 notifyMe.key("test")
                                 notifyMe.small_icon(R.mipmap.ic_launcher)
                                 notifyMe.build()
                             }
-                        },hour,minute,false).show()
+                        },hour,minute,true).show()
                     }
                 } ,year,month,day).show()
             }
@@ -233,6 +239,11 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
         var remainderBellBtn: ImageButton = itemView.findViewById(R.id.remainderBellBtn)
     }
     //------------------------------------------------------------------------------------------------------------------
+}
+
+private operator fun Any.invoke(default: TimeZone?) {
+
+
 }
 
 
