@@ -53,13 +53,13 @@ class AddNoteFragment : Fragment()  {
                    builder = Notification.Builder(context,channelId)
                        .setContentTitle("Fundoo Notes Alert.")
                        .setContentText("Note added!")
-                       .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+                       .setSmallIcon(R.mipmap.ic_launcher)
                }
                else{
                    builder = Notification.Builder(context)
                        .setContentTitle("Fundoo Notes Alert.")
                        .setContentText("Note added!")
-                       .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+                       .setSmallIcon(R.mipmap.ic_launcher)
                }
                notificationManager.notify(1234,builder.build())
                getActivity()?.onBackPressed();

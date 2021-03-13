@@ -63,4 +63,6 @@ dependencies {
     implementation 'com.orhanobut:dialogplus:1.11@aar'
 
     implementation'android.arch.paging:runtime:2.1.1'
+
+    implementation 'com.github.jakebonk:NotifyMe:1.0.1'
 }

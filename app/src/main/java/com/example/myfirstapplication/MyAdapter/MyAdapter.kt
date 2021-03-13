@@ -3,7 +3,7 @@ package com.example.myfirstapplication.MyAdapter
 import android.annotation.SuppressLint
 import android.app.*
 import android.content.Context
-import android.content.DialogInterface
+import android.content.Intent
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,6 +12,8 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import com.allyants.notifyme.NotifyMe
+import com.example.myfirstapplication.Activities.DashboardActivity
 import com.example.myfirstapplication.R
 import com.example.myfirstapplication.UserData.Notes
 import com.firebase.ui.database.FirebaseRecyclerAdapter
@@ -21,10 +23,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.orhanobut.dialogplus.DialogPlus
 import com.orhanobut.dialogplus.ViewHolder
-import kotlinx.android.synthetic.main.dialog_reminder_date_time_picker.*
-import kotlinx.android.synthetic.main.fragment_addnote.*
 import java.text.DateFormat
-import java.time.Year
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -139,6 +138,7 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
                 hour = cal.get(Calendar.HOUR)
                 minute = cal.get(Calendar.MINUTE)
 
+
                 DatePickerDialog(it.context,object : DatePickerDialog.OnDateSetListener {
                     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
                         savedDay = dayOfMonth
@@ -152,14 +152,27 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
 
                         val currentDateString : String = DateFormat.getDateInstance().format(cal.time)
 
-                        TimePickerDialog(view?.context,object : TimePickerDialog.OnTimeSetListener {
+                        TimePickerDialog(it.context,object : TimePickerDialog.OnTimeSetListener {
                             override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
                                 savedHour = hourOfDay
                                 savedMinute = minute
 
+                                val cal : Calendar = Calendar.getInstance()
+                                cal.set(Calendar.HOUR,hourOfDay)
+                                cal.set(Calendar.MINUTE,minute)
+
                                 textViewTimeDate.text = "Date: $currentDateString, Time: $savedHour:$savedMinute"
+
+                                val notifyMe: NotifyMe.Builder = NotifyMe.Builder(view?.context)
+                                notifyMe.title("Fundoo Notes Reminder Alert!");
+                                notifyMe.content("Title : ${note.title} | Description : ${note.description}");
+                                notifyMe.color( 225,225,225,225);//Color of notification header
+                                notifyMe.time(cal);//The time to popup notification
+                                notifyMe.key("test")
+                                notifyMe.small_icon(R.mipmap.ic_launcher)
+                                notifyMe.build()
                             }
-                        },hour,minute,true).show()
+                        },hour,minute,false).show()
                     }
                 } ,year,month,day).show()
             }
@@ -193,12 +206,12 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
                         this.builder = Notification.Builder(myView.context, channelId)
                             .setContentTitle("Fundoo Notes Alert.")
                             .setContentText("Note added to reminder list!")
-                            .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+                            .setSmallIcon(R.mipmap.ic_launcher)
                     } else {
                         this.builder = Notification.Builder(myView.context)
                             .setContentTitle("Fundoo Notes Alert.")
                             .setContentText("Note added to reminder list!")
-                            .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+                            .setSmallIcon(R.mipmap.ic_launcher)
                     }
                     notificationManager.notify(1234, this.builder.build())
                     Toast.makeText(myView.context, "Added to reminder list!", Toast.LENGTH_SHORT).show();

@@ -55,7 +55,8 @@
             app:cardCornerRadius="10dp"
             app:cardElevation="5dp"
             android:layout_gravity="start"
-            app:cardBackgroundColor="#177CD6">
+            app:cardBackgroundColor="#177CD6"
+            android:layout_alignParentBottom="true">
 
         <TextView
             android:id="@+id/textViewTimeAndDateReminder"
