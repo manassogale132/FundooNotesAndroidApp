@@ -12,14 +12,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.FragmentActivity
 import com.bumptech.glide.Glide
 import com.example.myfirstapplication.Fragments.*
 import com.example.myfirstapplication.R
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_dashboard.*
-import kotlinx.android.synthetic.main.fragment_profile.*
+
 
 class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListener {
 
@@ -49,6 +51,18 @@ class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemS
             navigationView.setCheckedItem(R.id.nav_notes)
             displayView(R.id.nav_notes)
         }
+
+        firebaseCloudMessage()
+    }
+    //---------------------------------------------------------------------------------------------------------------
+    fun firebaseCloudMessage(){
+        FirebaseMessaging.getInstance().subscribeToTopic("Notes-Reminder")
+            .addOnCompleteListener { task ->
+                var msg = "Done"
+                if (!task.isSuccessful) {
+                    msg = "Failed"
+                }
+            }
     }
     //---------------------------------------------------------------------------------------------------------------
     fun displayView(viewId : Int){                                //in drawer menu options attaching fragments to corresponding menus

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.icu.text.TimeZoneFormat
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
@@ -160,9 +159,15 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
                                 savedMinute = minute
 
                                 val cal : Calendar = Calendar.getInstance()
+                                cal.set(Calendar.DAY_OF_MONTH,dayOfMonth)
+                                cal.set(Calendar.MONTH,month)
+                                cal.set(Calendar.YEAR,year)
                                 cal.set(Calendar.HOUR,hourOfDay)
                                 cal.set(Calendar.MINUTE,minute)
                                 cal.timeZone(TimeZone.getDefault())
+
+                                val intent = Intent(view?.context, DashboardActivity::class.java)
+
                                 val format : SimpleDateFormat = SimpleDateFormat("k:mm a")
                                 val time : String = format.format(cal.time)
 
@@ -174,6 +179,7 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
                                 notifyMe.color( 225,225,225,225);//Color of notification header
                                 notifyMe.time(cal);//The time to popup notification
                                 notifyMe.key("test")
+                                notifyMe.addAction(intent,"Done")
                                 notifyMe.small_icon(R.mipmap.ic_launcher)
                                 notifyMe.build()
                             }
