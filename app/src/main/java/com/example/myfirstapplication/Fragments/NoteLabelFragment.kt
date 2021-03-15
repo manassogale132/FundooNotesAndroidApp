@@ -56,8 +56,7 @@ class NoteLabelFragment: Fragment()   {
                 .orderByChild("creationTime"), Label::class.java)
             .build()
 
-        myLabelCheckBoxAdapter = MyLabelCheckBoxAdapter(options) {
-                position, label, isChecked ->
+        myLabelCheckBoxAdapter = MyLabelCheckBoxAdapter(options) { position, label, isChecked ->
 
             databaseReference = database?.reference!!.child("notes_label_collection")
 

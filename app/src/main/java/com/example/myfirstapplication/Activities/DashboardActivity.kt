@@ -55,6 +55,7 @@ class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemS
         firebaseCloudMessage()
     }
     //---------------------------------------------------------------------------------------------------------------
+    //https://freeiconshop.com/wp-content/uploads/edd/notification-flat.png  //push notification png image link
     fun firebaseCloudMessage(){
         FirebaseMessaging.getInstance().subscribeToTopic("Notes-Reminder")
             .addOnCompleteListener { task ->

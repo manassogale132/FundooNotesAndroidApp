@@ -35,17 +35,12 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
     var databaseReference: DatabaseReference? = null
     var database: FirebaseDatabase? = null
 
+    val cal : Calendar = Calendar.getInstance()
     var day = 0
     var month = 0
     var year = 0
     var hour = 0
     var minute = 0
-
-    var savedDay = 0
-    var savedMonth = 0
-    var savedYear = 0
-    var savedHour = 0
-    var savedMinute = 0
 
     lateinit var notificationManager: NotificationManager
     lateinit var notificationChannel: NotificationChannel
@@ -132,20 +127,16 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
             }
 
             dateTimePickerBtn.setOnClickListener {
-                val cal : Calendar = Calendar.getInstance()
+
                 day = cal.get(Calendar.DAY_OF_MONTH)
                 month = cal.get(Calendar.MONTH)
                 year = cal.get(Calendar.YEAR)
                 hour = cal.get(Calendar.HOUR)
                 minute = cal.get(Calendar.MINUTE)
-
+                
                 DatePickerDialog(it.context,object : DatePickerDialog.OnDateSetListener {
                     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-                        savedDay = dayOfMonth
-                        savedMonth = month
-                        savedYear = year
 
-                        val cal : Calendar = Calendar.getInstance()
                         cal.set(Calendar.DAY_OF_MONTH,dayOfMonth)
                         cal.set(Calendar.MONTH,month)
                         cal.set(Calendar.YEAR,year)
@@ -155,18 +146,9 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
                         TimePickerDialog(it.context,object : TimePickerDialog.OnTimeSetListener {
                             @SuppressLint("SimpleDateFormat")
                             override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-                                savedHour = hourOfDay
-                                savedMinute = minute
 
-                                val cal : Calendar = Calendar.getInstance()
-                                cal.set(Calendar.DAY_OF_MONTH,dayOfMonth)
-                                cal.set(Calendar.MONTH,month)
-                                cal.set(Calendar.YEAR,year)
                                 cal.set(Calendar.HOUR,hourOfDay)
                                 cal.set(Calendar.MINUTE,minute)
-                                cal.timeZone(TimeZone.getDefault())
-
-                                val intent = Intent(view?.context, DashboardActivity::class.java)
 
                                 val format : SimpleDateFormat = SimpleDateFormat("k:mm a")
                                 val time : String = format.format(cal.time)
@@ -178,8 +160,7 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
                                 notifyMe.content("Description : ${note.description}");
                                 notifyMe.color( 225,225,225,225);//Color of notification header
                                 notifyMe.time(cal);//The time to popup notification
-                                notifyMe.key("test")
-                                notifyMe.addAction(intent,"Done")
+                                notifyMe.addAction(Intent(),"Dismiss",true,false)
                                 notifyMe.small_icon(R.mipmap.ic_launcher)
                                 notifyMe.build()
                             }
@@ -246,10 +227,6 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
     //------------------------------------------------------------------------------------------------------------------
 }
 
-private operator fun Any.invoke(default: TimeZone?) {
-
-
-}
 
 
 
