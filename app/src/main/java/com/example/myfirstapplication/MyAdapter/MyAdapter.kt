@@ -41,6 +41,7 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
     var year = 0
     var hour = 0
     var minute = 0
+    var seconds = 0
 
     lateinit var notificationManager: NotificationManager
     lateinit var notificationChannel: NotificationChannel
@@ -60,12 +61,14 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
         holder.textTitle.text = note.title
         holder.textDescription.text = note.description
 
+
+
         Log.e("test", "onBindViewHolder: ${note.noteId}")
         //------------------------------------------------------------------------------------------------------------------
         holder.updateBtn.setOnClickListener {
             val dialogPlus = DialogPlus.newDialog(holder.textTitle.context)
                 .setContentHolder(ViewHolder(R.layout.dialog_content))
-                .setExpanded(true, 2300).create()
+                .setExpanded(true, 2000).create()
 
             val myView: View = dialogPlus.holderView
             val title: EditText = myView.findViewById(R.id.titleDialog)
@@ -112,7 +115,7 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
         holder.remainderBellBtn.setOnClickListener {
             val dialogPlus = DialogPlus.newDialog(holder.textTitle.context)
                 .setContentHolder(ViewHolder(R.layout.dialog_reminder_date_time_picker))
-                .setExpanded(true, 2300).create()
+                .setExpanded(true, 2000).create()
 
             val myView: View = dialogPlus.holderView
             val dateTimePickerBtn: Button = myView.findViewById(R.id.dateTimePickerBtn)
@@ -133,6 +136,8 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
                 year = cal.get(Calendar.YEAR)
                 hour = cal.get(Calendar.HOUR)
                 minute = cal.get(Calendar.MINUTE)
+                seconds = cal .get(Calendar.SECOND)
+
                 
                 DatePickerDialog(it.context,object : DatePickerDialog.OnDateSetListener {
                     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
@@ -149,6 +154,7 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
 
                                 cal.set(Calendar.HOUR,hourOfDay)
                                 cal.set(Calendar.MINUTE,minute)
+                                cal.set(Calendar.SECOND,0)
 
                                 val format : SimpleDateFormat = SimpleDateFormat("k:mm a")
                                 val time : String = format.format(cal.time)

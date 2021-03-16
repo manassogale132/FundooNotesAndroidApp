@@ -49,7 +49,7 @@ class MyLabelAdapter(options: FirebaseRecyclerOptions<Label>) : FirebaseRecycler
         holder.updateLabel.setOnClickListener {
             val dialogPlus = DialogPlus.newDialog(holder.textLabel.context)
                 .setContentHolder(ViewHolder(R.layout.dialog_content_label))
-                .setExpanded(true,2300).create()
+                .setExpanded(true,2000).create()
 
             val myView : View = dialogPlus.holderView
             val titleLabel : EditText = myView.findViewById(R.id.titleLabelDialog)

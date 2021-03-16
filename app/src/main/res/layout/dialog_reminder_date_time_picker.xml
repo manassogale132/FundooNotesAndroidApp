@@ -16,6 +16,7 @@
             android:layout_width="360dp"
             android:layout_height="50dp"
             android:text="Reminder Note"
+            android:gravity="center_vertical"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"
             android:textColor="#fff"

@@ -28,7 +28,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         notificationManager =  this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //sdk version higher than 26
             notificationChannel = NotificationChannel("mtFirebaseChannel", desctiption, NotificationManager.IMPORTANCE_HIGH)
             notificationChannel.enableVibration(false)
             notificationManager.createNotificationChannel(notificationChannel)
@@ -38,7 +38,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     .setContentTitle(title)
                     .setContentText(msg)
                     .setAutoCancel(true)
-        } else{
+        } else {      //sdk version less than 26
             builder = Notification.Builder(this)
                 .setSmallIcon(R.drawable.ic_baseline_notifications_24)
                 .setContentTitle(title)
