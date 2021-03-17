@@ -101,6 +101,12 @@ class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemS
                 ).commit()
                 viewIsAtHome = false
             }
+            R.id.nav_archive -> {
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container,
+                    ArchiveFragment()
+                ).commit()
+                viewIsAtHome = false
+            }
             R.id.nav_logout -> {
                 auth.signOut()
                 Toast.makeText(baseContext,"Logged Out",Toast.LENGTH_SHORT).show()

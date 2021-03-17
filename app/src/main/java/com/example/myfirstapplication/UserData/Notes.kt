@@ -8,8 +8,9 @@ class Notes {
     var description : String? = null
     var creationTime : Long = System.currentTimeMillis()
     var noteId : String?=null
-
     var noteReminderTimeDate : String? = null
+
+    var archive : Boolean = false
 
     var labels : List<Label> = emptyList()
 
@@ -20,9 +21,7 @@ class Notes {
         this.userID = userID
         this.title = title
         this.description = description
-
         this.noteId = noteId
-
         this.noteReminderTimeDate = noteReminderTimeDate
     }
 }

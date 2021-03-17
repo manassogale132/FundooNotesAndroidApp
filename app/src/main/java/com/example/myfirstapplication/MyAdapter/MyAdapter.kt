@@ -136,7 +136,7 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
                 year = cal.get(Calendar.YEAR)
                 hour = cal.get(Calendar.HOUR)
                 minute = cal.get(Calendar.MINUTE)
-                seconds = cal .get(Calendar.SECOND)
+                seconds = cal.get(Calendar.SECOND)
 
                 
                 DatePickerDialog(it.context,object : DatePickerDialog.OnDateSetListener {
@@ -156,7 +156,7 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
                                 cal.set(Calendar.MINUTE,minute)
                                 cal.set(Calendar.SECOND,0)
 
-                                val format : SimpleDateFormat = SimpleDateFormat("k:mm a")
+                                val format = SimpleDateFormat("k:mm aa")
                                 val time : String = format.format(cal.time)
 
                                 textViewTimeDate.text = "$currentDateString, $time"
