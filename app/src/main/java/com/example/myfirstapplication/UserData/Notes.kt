@@ -10,8 +10,6 @@ class Notes {
     var noteId : String?=null
     var noteReminderTimeDate : String? = null
 
-    var archive : Boolean = false
-
     var labels : List<Label> = emptyList()
 
     constructor(){

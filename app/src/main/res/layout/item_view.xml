@@ -11,21 +11,36 @@
     app:cardElevation="5dp"
     app:contentPadding="4dp">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <ImageButton
+            android:id="@+id/updateICon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_baseline_edit_24"
+            app:tint="#177CD6" />
+
+        <ImageButton
+            android:id="@+id/remainderBellBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_baseline_doorbell_24"
+            android:tint="#177CD6" />
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
+        android:padding="5dp"
+        android:layout_marginTop="35dp"
         android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/remainderBellBtn"
-            android:layout_width="110dp"
-            android:layout_height="45dp"
-            android:layout_gravity="end"
-            android:layout_marginTop="-13dp"
-            android:src="@drawable/ic_baseline_doorbell_24"
-            android:tint="#177CD6" />
 
         <TextView
             android:layout_marginTop="5dp"
@@ -78,23 +93,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageButton
-            android:id="@+id/updateICon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_baseline_edit_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="#177CD6" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
