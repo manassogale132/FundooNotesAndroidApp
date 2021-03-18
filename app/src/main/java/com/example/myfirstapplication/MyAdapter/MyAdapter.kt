@@ -236,11 +236,11 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
             val map: MutableMap<String, Any> = HashMap()
             map["archived"] = true
 
-            getRef(p1).key?.let { it1 ->
-                FirebaseDatabase.getInstance().reference.child("notes collection").child(it1)
-                    .updateChildren(map)
-                Toast.makeText(it.getContext(), "Archived!", Toast.LENGTH_SHORT).show();
-            }
+            Log.e("itemcount", "onBindViewHolder: ${itemCount} " )
+            Log.e("itemcount", "onBindViewHolder: ${p1} " )
+
+            FirebaseDatabase.getInstance().reference.child("notes collection").child(note.noteId!!)
+                .updateChildren(map)
         }
     }
     //------------------------------------------------------------------------------------------------------------------

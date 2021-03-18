@@ -1,5 +1,6 @@
 package com.example.myfirstapplication.MyAdapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +22,7 @@ class MyArchivedNotesAdapter(options: FirebaseRecyclerOptions<Notes>): FirebaseR
         return MyViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int, model: Notes) {
+    override fun onBindViewHolder(holder: MyViewHolder, p1: Int, model: Notes) {
         holder.textViewArchivedTitleItem.text = model.title
         holder.textViewArchivedDescriptionItem.text = model.description
 
@@ -29,16 +30,16 @@ class MyArchivedNotesAdapter(options: FirebaseRecyclerOptions<Notes>): FirebaseR
             val map: MutableMap<String, Any> = HashMap()
             map["archived"] = false
 
-            getRef(position).key?.let { it1 ->
-                FirebaseDatabase.getInstance().reference.child("notes collection").child(it1)
-                    .updateChildren(map)
-                Toast.makeText(it.getContext(), "Unarchived!", Toast.LENGTH_SHORT).show();
-            }
+            Log.e("itemcount", "onBindViewHolder: ${itemCount} " )
+            Log.e("itemcount", "onBindViewHolder: ${p1} " )
+
+            FirebaseDatabase.getInstance().reference.child("notes collection").child(model.noteId!!)
+                .updateChildren(map)
         }
     }
 
-    public fun deleteItem(position : Int){
-        snapshots.getSnapshot(position).ref.removeValue()
+    public fun deleteItem(p1 : Int){
+        snapshots.getSnapshot(p1).ref.removeValue()
     }
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){

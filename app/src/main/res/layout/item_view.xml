@@ -60,7 +60,7 @@
         <TextView
             android:id="@+id/textViewTitleItem"
             style="@style/TextAppearance.AppCompat.Headline"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="22dp"
             android:textStyle="bold"
@@ -70,8 +70,7 @@
         <TextView
             android:id="@+id/textViewDescriptionItem"
             android:paddingTop="5dp"
-            style="@style/TextAppearance.AppCompat.Body1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16dp"
             android:textColor="@color/black"

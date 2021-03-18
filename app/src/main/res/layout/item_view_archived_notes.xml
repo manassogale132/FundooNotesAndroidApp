@@ -21,6 +21,7 @@
         <ImageButton
             android:id="@+id/unarchiveIcon"
             android:layout_width="40dp"
+            android:layout_marginTop="-11dp"
             android:layout_height="40dp"
             android:layout_gravity="end"
             android:src="@drawable/ic_baseline_unarchive_24"
@@ -28,7 +29,7 @@
 
 
         <TextView
-            android:layout_marginTop="5dp"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15dp"

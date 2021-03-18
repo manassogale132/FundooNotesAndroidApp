@@ -1,6 +1,7 @@
 package com.example.myfirstapplication.Fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import com.example.myfirstapplication.MyAdapter.MyAdapter
 import com.example.myfirstapplication.R
 import com.example.myfirstapplication.UserData.Notes
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_notes.*
@@ -41,9 +43,10 @@ class NotesFragment : Fragment() {
 
     private fun loadDataIntoRecycler(){
 
+
         val options: FirebaseRecyclerOptions<Notes> = FirebaseRecyclerOptions.Builder<Notes>()
             .setQuery(FirebaseDatabase.getInstance().reference.child("notes collection")
-                .orderByChild("creationTime"), Notes::class.java)
+                .orderByChild("archived").equalTo(false), Notes::class.java)
             .build()
 
         myAdapter = MyAdapter(options) { position : Int, note : Notes ->
@@ -53,13 +56,23 @@ class NotesFragment : Fragment() {
                 }
             )?.commit()
         }
-        myAdapter.notifyDataSetChanged()
         recyclerViewList.adapter = myAdapter
+        myAdapter.notifyDataSetChanged()
+        /*if(recyclerViewList.adapter == null){
+            Log.e("itemcount", "loadDataIntoRecycler: null" )
+            recyclerViewList.adapter = myAdapter
+        }else {
+            //myAdapter.updateOptions(options)
+            Log.e("itemcount", "loadDataIntoRecycler: existing" )
+            (recyclerViewList.adapter as MyAdapter).updateOptions(options)
+        }*/
+
     }
 
     override fun onStart() {
         super.onStart()
         myAdapter.startListening()
+        myAdapter.notifyDataSetChanged()
     }
 
     override fun onStop() {
@@ -130,6 +143,7 @@ class NotesFragment : Fragment() {
             )?.commit()
         }
         myAdapter.startListening()
+        myAdapter.notifyDataSetChanged()
         recyclerViewList.adapter = myAdapter
     }
     //------------------------------------------------------------------------------------------------------------------

@@ -13,6 +13,7 @@ import com.example.myfirstapplication.MyAdapter.MyArchivedNotesAdapter
 import com.example.myfirstapplication.R
 import com.example.myfirstapplication.UserData.Notes
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
 class ArchiveFragment: Fragment()  {
@@ -21,12 +22,16 @@ class ArchiveFragment: Fragment()  {
     lateinit var myArchivedNotesAdapter: MyArchivedNotesAdapter
     lateinit var manager : LinearLayoutManager
 
+    var databaseReference : DatabaseReference? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_archive,container,false)
 
         recyclerviewArchivedNotesList = view.findViewById(R.id.recyclerviewArchivedNotesList)
         manager = LinearLayoutManager(context)
         recyclerviewArchivedNotesList.layoutManager = manager
+
+        databaseReference?.keepSynced(true) //offline support
 
             loadDataIntoRecycler()
 
@@ -47,6 +52,7 @@ class ArchiveFragment: Fragment()  {
     override fun onStart() {
         super.onStart()
         myArchivedNotesAdapter.startListening()
+        myArchivedNotesAdapter.notifyDataSetChanged()
     }
 
     override fun onStop() {
