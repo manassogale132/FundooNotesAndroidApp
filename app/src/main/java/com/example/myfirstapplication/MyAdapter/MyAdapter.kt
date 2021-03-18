@@ -239,6 +239,7 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
             getRef(p1).key?.let { it1 ->
                 FirebaseDatabase.getInstance().reference.child("notes collection").child(it1)
                     .updateChildren(map)
+                Toast.makeText(it.getContext(), "Archived!", Toast.LENGTH_SHORT).show();
             }
         }
     }

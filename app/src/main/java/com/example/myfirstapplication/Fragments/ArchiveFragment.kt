@@ -68,7 +68,7 @@ class ArchiveFragment: Fragment()  {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 myArchivedNotesAdapter.deleteItem(viewHolder.adapterPosition)
-                Toast.makeText(activity, "Note deleted from archived list!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "Note deleted!", Toast.LENGTH_SHORT).show()
             }
         }).attachToRecyclerView(recyclerviewArchivedNotesList)
     }
