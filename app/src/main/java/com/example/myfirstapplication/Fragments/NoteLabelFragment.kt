@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -60,20 +61,19 @@ class NoteLabelFragment: Fragment()   {
 
             databaseReference = database?.reference!!.child("notes_label_collection")
 
-            if(isChecked) {
+                if (isChecked) {
                 val noteLabelRelationShipReference = databaseReference?.push()
                 val relationShip = NoteLabelRelationShip(noteID, label.labelId)
                 noteLabelRelationShipReference?.setValue(relationShip)
-            }else{
+            } else {
                 databaseReference?.get()?.addOnSuccessListener {
                     it.children.forEach { child ->
-                        if(child.child("noteId").value!!.equals(noteID) && child.child("labelId").value!!.equals(label.labelId)){
-                        databaseReference?.child(child.key.toString())?.removeValue()
-                    }
+                        if (child.child("noteId").value!!.equals(noteID) && child.child("labelId").value!!.equals(label.labelId)) {
+                            databaseReference?.child(child.key.toString())?.removeValue()
+                        }
                     }
                 }
             }
-
         }
         myLabelCheckBoxAdapter.notifyDataSetChanged()
         recyclerviewLabelCheckBox.adapter = myLabelCheckBoxAdapter

@@ -31,6 +31,13 @@
             android:src="@drawable/ic_baseline_doorbell_24"
             android:tint="#177CD6" />
 
+        <ImageButton
+            android:id="@+id/archiveBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_baseline_archive_24"
+            android:tint="#177CD6" />
+
     </LinearLayout>
 
 
@@ -73,7 +80,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -88,7 +95,8 @@
                 android:id="@+id/noteItemViewLabelTextViewFirst"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:textStyle="italic"/>
 
         </LinearLayout>
 

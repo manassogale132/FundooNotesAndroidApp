@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.allyants.notifyme.NotifyMe
 import com.example.myfirstapplication.Activities.DashboardActivity
 import com.example.myfirstapplication.R
+import com.example.myfirstapplication.UserData.NoteLabelRelationShip
 import com.example.myfirstapplication.UserData.Notes
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
@@ -58,9 +59,22 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onBindViewHolder(holder: MyViewHolder, p1: Int, note: Notes) {
+
+        database = FirebaseDatabase.getInstance()
+        databaseReference = database?.reference!!.child("notes_label_collection")
+
         holder.textTitle.text = note.title
         holder.textDescription.text = note.description
 
+        databaseReference?.get()?.addOnSuccessListener {
+            it.children.forEach { child ->
+                if(child.child("noteId").value!!.equals(note.noteId)){
+                    databaseReference?.child(child.key.toString())?.removeValue()
+
+                    Log.e("Child", "onBindViewHolder NoteID : ${note.noteId} ${child.value}")
+                }
+            }
+        }
 
 
         Log.e("test", "onBindViewHolder: ${note.noteId}")
@@ -138,7 +152,7 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
                 minute = cal.get(Calendar.MINUTE)
                 seconds = cal.get(Calendar.SECOND)
 
-                
+
                 DatePickerDialog(it.context,object : DatePickerDialog.OnDateSetListener {
                     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
 
@@ -188,7 +202,8 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
                     val description = note.description
                     val noteId = databaseReference?.key
                     val noteReminderTimeDate = textViewTimeDate.text.toString()
-                    val notes = Notes(userId, title, description, noteId,noteReminderTimeDate)
+                    val archived = false
+                    val notes = Notes(userId, title, description, noteId,noteReminderTimeDate,archived)
 
                     databaseReference?.setValue(notes)
 
@@ -217,6 +232,15 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
             }
         }
         //------------------------------------------------------------------------------------------------------------------
+        holder.archiveBtn.setOnClickListener {
+            val map: MutableMap<String, Any> = HashMap()
+            map["archived"] = true
+
+            getRef(p1).key?.let { it1 ->
+                FirebaseDatabase.getInstance().reference.child("notes collection").child(it1)
+                    .updateChildren(map)
+            }
+        }
     }
     //------------------------------------------------------------------------------------------------------------------
     public fun deleteItem(position: Int) {
@@ -229,6 +253,7 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
         var updateBtn: ImageView = itemView.findViewById(R.id.updateICon)
         var loadLabelFragment: ImageView = itemView.findViewById(R.id.addLabelToItemBtn)
         var remainderBellBtn: ImageButton = itemView.findViewById(R.id.remainderBellBtn)
+        var archiveBtn : ImageButton = itemView.findViewById(R.id.archiveBtn)
     }
     //------------------------------------------------------------------------------------------------------------------
 }
