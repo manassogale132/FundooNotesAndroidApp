@@ -88,14 +88,27 @@
                 android:layout_height="25dp"
                 android:src="@drawable/ic_baseline_label_24"
                 android:tint="#177CD6"
+                android:layout_gravity="center_vertical"
                 android:layout_marginLeft="-5dp"/>
 
             <TextView
                 android:id="@+id/noteItemViewLabelTextViewFirst"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textStyle="italic"/>
+                android:textStyle="italic"
+                android:textSize="15dp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_marginLeft="20dp"
+                android:id="@+id/noteItemViewLabelTextViewSecond"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textStyle="italic"
+                android:textSize="17dp"
+                android:textColor="@color/black"/>
 
         </LinearLayout>
 

@@ -12,9 +12,12 @@ import com.example.myfirstapplication.R
 import com.example.myfirstapplication.UserData.Notes
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
 class MyArchivedNotesAdapter(options: FirebaseRecyclerOptions<Notes>): FirebaseRecyclerAdapter<Notes, MyArchivedNotesAdapter.MyViewHolder>(options)  {
+
+    var databaseReference : DatabaseReference? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -35,6 +38,8 @@ class MyArchivedNotesAdapter(options: FirebaseRecyclerOptions<Notes>): FirebaseR
 
             FirebaseDatabase.getInstance().reference.child("notes collection").child(model.noteId!!)
                 .updateChildren(map)
+
+            Toast.makeText(it.context, " Note Unarchived!", Toast.LENGTH_SHORT).show();
         }
     }
 

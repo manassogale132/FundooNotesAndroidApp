@@ -31,8 +31,6 @@ class ArchiveFragment: Fragment()  {
         manager = LinearLayoutManager(context)
         recyclerviewArchivedNotesList.layoutManager = manager
 
-        databaseReference?.keepSynced(true) //offline support
-
             loadDataIntoRecycler()
 
         return view
@@ -46,13 +44,12 @@ class ArchiveFragment: Fragment()  {
 
             myArchivedNotesAdapter = MyArchivedNotesAdapter(options)
             recyclerviewArchivedNotesList.adapter = myArchivedNotesAdapter
-
+            myArchivedNotesAdapter.notifyDataSetChanged()
     }
 
     override fun onStart() {
         super.onStart()
         myArchivedNotesAdapter.startListening()
-        myArchivedNotesAdapter.notifyDataSetChanged()
     }
 
     override fun onStop() {

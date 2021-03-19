@@ -27,6 +27,7 @@ class NotesFragment : Fragment() {
     lateinit var manager : LinearLayoutManager
 
     var databaseReference : DatabaseReference? = null
+    var database : FirebaseDatabase? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view :View = inflater.inflate(R.layout.fragment_notes,container,false)
@@ -42,8 +43,6 @@ class NotesFragment : Fragment() {
     }
 
     private fun loadDataIntoRecycler(){
-
-
         val options: FirebaseRecyclerOptions<Notes> = FirebaseRecyclerOptions.Builder<Notes>()
             .setQuery(FirebaseDatabase.getInstance().reference.child("notes collection")
                 .orderByChild("archived").equalTo(false), Notes::class.java)
@@ -57,22 +56,11 @@ class NotesFragment : Fragment() {
             )?.commit()
         }
         recyclerViewList.adapter = myAdapter
-        myAdapter.notifyDataSetChanged()
-        /*if(recyclerViewList.adapter == null){
-            Log.e("itemcount", "loadDataIntoRecycler: null" )
-            recyclerViewList.adapter = myAdapter
-        }else {
-            //myAdapter.updateOptions(options)
-            Log.e("itemcount", "loadDataIntoRecycler: existing" )
-            (recyclerViewList.adapter as MyAdapter).updateOptions(options)
-        }*/
-
     }
 
     override fun onStart() {
         super.onStart()
         myAdapter.startListening()
-        myAdapter.notifyDataSetChanged()
     }
 
     override fun onStop() {

@@ -13,9 +13,8 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.allyants.notifyme.NotifyMe
-import com.example.myfirstapplication.Activities.DashboardActivity
 import com.example.myfirstapplication.R
-import com.example.myfirstapplication.UserData.NoteLabelRelationShip
+import com.example.myfirstapplication.UserData.Label
 import com.example.myfirstapplication.UserData.Notes
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
@@ -50,6 +49,7 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
     private val channelId = "com.example.myfirstapplication.Fragments"
     private val desctiption = "Reminder Test Notification"
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.item_view, parent, false)
@@ -69,9 +69,17 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
         databaseReference?.get()?.addOnSuccessListener {
             it.children.forEach { child ->
                 if(child.child("noteId").value!!.equals(note.noteId)){
-                    databaseReference?.child(child.key.toString())?.removeValue()
+                    databaseReference?.child(child.key.toString())
 
-                    Log.e("Child", "onBindViewHolder NoteID : ${note.noteId} ${child.value}")
+                    Log.e("Child", "onBindViewHolder NoteID : ${note.noteId} ${child.child("labelId").value}")
+
+                    val labelId = child.child("labelId").value
+
+                    FirebaseDatabase.getInstance().reference.child("label collection").child(labelId as String).get()
+                        .addOnSuccessListener {
+                            Log.e("Child", "onBindViewHolder: ${it.child("label")}")
+                            holder.noteItemViewLabelTextViewFirst.text = it.child("label").value as String
+                    }
                 }
             }
         }
@@ -160,7 +168,7 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
                         cal.set(Calendar.MONTH,month)
                         cal.set(Calendar.YEAR,year)
 
-                        val currentDateString : String = DateFormat.getDateInstance().format(cal.time)
+                        val currentDateString : String = DateFormat.getDateInstance().format(cal.timeInMillis)
 
                         TimePickerDialog(it.context,object : TimePickerDialog.OnTimeSetListener {
                             @SuppressLint("SimpleDateFormat")
@@ -171,7 +179,9 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
                                 cal.set(Calendar.SECOND,0)
 
                                 val format = SimpleDateFormat("k:mm aa")
-                                val time : String = format.format(cal.time)
+                                val time : String = format.format(cal.timeInMillis)
+
+                                cal.timeInMillis
 
                                 textViewTimeDate.text = "$currentDateString, $time"
 
@@ -241,6 +251,8 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
 
             FirebaseDatabase.getInstance().reference.child("notes collection").child(note.noteId!!)
                 .updateChildren(map)
+
+            Toast.makeText(it.context, "Note Archived!", Toast.LENGTH_SHORT).show();
         }
     }
     //------------------------------------------------------------------------------------------------------------------
@@ -255,6 +267,8 @@ class MyAdapter(options: FirebaseRecyclerOptions<Notes>,
         var loadLabelFragment: ImageView = itemView.findViewById(R.id.addLabelToItemBtn)
         var remainderBellBtn: ImageButton = itemView.findViewById(R.id.remainderBellBtn)
         var archiveBtn : ImageButton = itemView.findViewById(R.id.archiveBtn)
+        var noteItemViewLabelTextViewFirst : TextView = itemView.findViewById(R.id.noteItemViewLabelTextViewFirst)
+        var noteItemViewLabelTextViewSecond : TextView = itemView.findViewById(R.id.noteItemViewLabelTextViewSecond)
     }
     //------------------------------------------------------------------------------------------------------------------
 }

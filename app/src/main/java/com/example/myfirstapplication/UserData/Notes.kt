@@ -11,8 +11,6 @@ class Notes {
     var noteReminderTimeDate : String? = null
     var archived : Boolean = false
 
-    var labels : List<Label> = emptyList()
-
     constructor(){
 
     }
