@@ -75,6 +75,7 @@ class NoteLabelFragment: Fragment()   {
                 }
             }
         }
+
         myLabelCheckBoxAdapter.notifyDataSetChanged()
         recyclerviewLabelCheckBox.adapter = myLabelCheckBoxAdapter
     }

@@ -32,12 +32,10 @@
     </activity>
 
         <activity
-            android:name=".Activities.LoginActivity"
-            android:screenOrientation="portrait" />
+            android:name=".Activities.LoginActivity" />
 
         <activity
-            android:name=".Activities.RegistrationActivity"
-            android:screenOrientation="portrait" />
+            android:name=".Activities.RegistrationActivity" />
 
         <activity
             android:name=".Activities.DashboardActivity" />
