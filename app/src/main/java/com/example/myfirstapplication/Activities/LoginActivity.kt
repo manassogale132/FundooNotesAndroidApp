@@ -3,6 +3,7 @@ package com.example.myfirstapplication.Activities
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.os.StrictMode
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
@@ -24,9 +25,13 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_login.showPassword
-import kotlinx.android.synthetic.main.activity_registration.*
-import javax.security.auth.login.LoginException
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.lang.Exception
+import java.net.HttpURLConnection
+import java.net.URL
 
 
 class LoginActivity : AppCompatActivity() {
@@ -70,6 +75,64 @@ class LoginActivity : AppCompatActivity() {
 
         sign_in_button.setOnClickListener {
             signIn()
+        }
+
+       val thread : Thread = Thread(Runnable(){
+           try{
+               loadTestData()
+           }catch(e: Exception){
+               e.printStackTrace();
+           }catch(e: JSONException){
+               e.printStackTrace();
+           }
+       })
+        thread.start()
+    }
+    //-------------------------------------------------------------------------------------------------------------------------
+    private fun loadTestData() {
+
+        val url = URL("http://fundoonotes.incubation.bridgelabz.com/api/user/userSignUp") //Create a URL Object
+
+        val con: HttpURLConnection = url.openConnection() as HttpURLConnection //Open a Connection
+
+        con.setRequestMethod("POST") //Set the Request Method
+        con.setRequestProperty("Content-Type", "application/json; utf-8") //Set the Request Content-Type Header Parameter
+        con.setRequestProperty("Accept", "application/json") //Set Response Format Type
+        con.setDoOutput(true) //Ensure the Connection Will Be Used to Send Content
+
+
+        val jsonInputString = """{    "firstName": "omkar",
+                                      "lastName": "jadhav",
+                                      "role": "user",
+                                      "service": "advance",
+                                      "password": "test123",
+                                      "createdDate": "2021-03-22T10:18:15.633Z",
+                                      "modifiedDate": "2021-03-22T10:18:15.633Z",
+                                      "email": "omkarjadhav@gmail.com"     }"""  //Create the Request Body
+
+
+        con.outputStream.use { os ->  //Need to write it
+            val input = jsonInputString.toByteArray(charset("utf-8"))
+            os.write(input, 0, input.size)
+        }
+
+        //Read the Response From Input Stream
+        BufferedReader(InputStreamReader(con.inputStream, "utf-8")).use { br ->
+            val response = StringBuilder()
+            var responseLine: String? = null
+            while (br.readLine().also { responseLine = it } != null) {
+                response.append(responseLine!!.trim { it <= ' ' })
+            }
+
+            val finalJSON : String = response.toString()
+
+            val parentObject = JSONObject(finalJSON)
+            val finalObject : JSONObject = parentObject.getJSONObject("data")
+
+            val state : Boolean = finalObject.getBoolean("success")
+            val stateMessage : String = finalObject.getString("message")
+
+            Log.d("CheckHttpResponse", "loadTestData = success : $state  message : $stateMessage")
         }
     }
     //-------------------------------------------------------------------------------------------------------------------------
