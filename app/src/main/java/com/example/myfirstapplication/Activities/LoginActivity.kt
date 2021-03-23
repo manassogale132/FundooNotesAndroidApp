@@ -3,7 +3,6 @@ package com.example.myfirstapplication.Activities
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.os.StrictMode
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
@@ -29,8 +28,8 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import java.lang.Exception
 import java.net.HttpURLConnection
+import java.net.MalformedURLException
 import java.net.URL
 
 
@@ -80,10 +79,15 @@ class LoginActivity : AppCompatActivity() {
        val thread : Thread = Thread(Runnable(){
            try{
                loadTestData()
-           }catch(e: Exception){
-               e.printStackTrace();
-           }catch(e: JSONException){
-               e.printStackTrace();
+           }catch(exception: Exception){
+               exception.printStackTrace();
+               Log.e("exceptionCheck", "onCreate: ${exception} " )
+           }catch(exception: JSONException){
+               exception.printStackTrace();
+               Log.e("exceptionCheck", "onCreate: ${exception} " )
+           }catch(exception: MalformedURLException){
+               exception.printStackTrace();
+               Log.e("exceptionCheck", "onCreate: ${exception} " )
            }
        })
         thread.start()
@@ -91,24 +95,24 @@ class LoginActivity : AppCompatActivity() {
     //-------------------------------------------------------------------------------------------------------------------------
     private fun loadTestData() {
 
-        val url = URL("http://fundoonotes.incubation.bridgelabz.com/api/user/userSignUp") //Create a URL Object
+        val url  = URL("http://fundoonotes.incubation.bridgelabz.com/api/user/userSignUp") //Create a URL Object
 
         val con: HttpURLConnection = url.openConnection() as HttpURLConnection //Open a Connection
 
         con.setRequestMethod("POST") //Set the Request Method
-        con.setRequestProperty("Content-Type", "application/json; utf-8") //Set the Request Content-Type Header Parameter
-        con.setRequestProperty("Accept", "application/json") //Set Response Format Type
+        con.setRequestProperty("Content-Type", "application/json") //Set the Request Content-Type Header Parameter
+        con.setRequestProperty("Accept", "*/*") //Set Response Format Type
         con.setDoOutput(true) //Ensure the Connection Will Be Used to Send Content
 
 
-        val jsonInputString = """{    "firstName": "omkar",
-                                      "lastName": "jadhav",
+        val jsonInputString = """{    "firstName": "hitest",
+                                      "lastName": "patil",
                                       "role": "user",
                                       "service": "advance",
-                                      "password": "test123",
-                                      "createdDate": "2021-03-22T10:18:15.633Z",
-                                      "modifiedDate": "2021-03-22T10:18:15.633Z",
-                                      "email": "omkarjadhav@gmail.com"     }"""  //Create the Request Body
+                                      "password": "hitest1234",
+                                      "createdDate": "2021-03-23T10:26:05.774Z",
+                                      "modifiedDate": "2021-03-23T10:26:05.774Z",
+                                      "email": "hitest12389@gmail.com"    }"""  //Create the Request Body
 
 
         con.outputStream.use { os ->  //Need to write it
@@ -117,14 +121,23 @@ class LoginActivity : AppCompatActivity() {
         }
 
         //Read the Response From Input Stream
-        BufferedReader(InputStreamReader(con.inputStream, "utf-8")).use { br ->
+        val inputStream = try {
+            con.inputStream
+        }catch (exception : Exception){
+            exception.printStackTrace()
+            con.errorStream
+        }
+        BufferedReader(InputStreamReader(inputStream, "utf-8")).use { br ->
             val response = StringBuilder()
-            var responseLine: String? = null
+            var responseLine: String?
             while (br.readLine().also { responseLine = it } != null) {
                 response.append(responseLine!!.trim { it <= ' ' })
             }
 
+
             val finalJSON : String = response.toString()
+
+            Log.d("testhttps", "loadTestData: ${finalJSON} ")
 
             val parentObject = JSONObject(finalJSON)
             val finalObject : JSONObject = parentObject.getJSONObject("data")
