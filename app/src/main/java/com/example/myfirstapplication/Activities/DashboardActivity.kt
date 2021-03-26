@@ -107,6 +107,10 @@ class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemS
                 ).commit()
                 viewIsAtHome = false
             }
+            R.id.nav_maps -> {
+                startActivity(Intent(this,MapsActivity::class.java))
+                viewIsAtHome = false
+            }
             R.id.nav_logout -> {
                 auth.signOut()
                 Toast.makeText(baseContext,"Logged Out",Toast.LENGTH_SHORT).show()

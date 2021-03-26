@@ -28,6 +28,10 @@
         <item android:id="@+id/nav_archive"
             android:icon="@drawable/ic_baseline_archive_24"
             android:title="Archived Notes"/>
+
+        <item android:id="@+id/nav_maps"
+            android:icon="@drawable/ic_baseline_map_24"
+            android:title="Current Location"/>
     </group>
 
     <item android:title="Options">

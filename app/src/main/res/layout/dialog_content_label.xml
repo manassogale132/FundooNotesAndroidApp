@@ -13,7 +13,7 @@
         android:background="#177CD6">
 
         <TextView
-            android:layout_width="360dp"
+            android:layout_width="340dp"
             android:layout_height="50dp"
             android:text="Update Label"
             android:gravity="center_vertical"
