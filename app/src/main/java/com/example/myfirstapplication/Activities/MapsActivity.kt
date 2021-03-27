@@ -113,17 +113,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
         if(requestCode == 10002) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 //we have the permission
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    return
-                }
                 Toast.makeText(this,"You can add geofences",Toast.LENGTH_SHORT).show()
             }else{
                 Toast.makeText(this,"Background location access is necessary",Toast.LENGTH_SHORT).show()
@@ -143,7 +132,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
             } else {
                 if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission
                         .ACCESS_BACKGROUND_LOCATION)) {
-                    ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION),
+                    ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission
+                        .ACCESS_BACKGROUND_LOCATION),
                         10002)
                 }else {
                     ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION),
