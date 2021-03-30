@@ -22,21 +22,26 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
             return;
         }
 
+        val geofenceList = geofencingEvent.triggeringGeofences
+        for (geofence in geofenceList) {
+            Log.d("geofenceListCheck", "onReceive: " + geofence.requestId)
+        }
+
         val transitionType = geofencingEvent.geofenceTransition  //transition type enter , dwell, exit
 
         //when statement on transitionType
         when (transitionType) {
             Geofence.GEOFENCE_TRANSITION_ENTER -> {
                 Toast.makeText(context, "GEOFENCE_TRANSITION_ENTER", Toast.LENGTH_SHORT).show()
-                notificationHelper.sendHighPriorityNotification("Fundoo notes geofence reminder!","GEOFENCE_TRANSITION_ENTER",MapsActivity::class.java)
+                notificationHelper.sendHighPriorityNotification("Fundoo Notes geofence reminder!","GEOFENCE_TRANSITION_ENTER",MapsActivity::class.java)
             }
             Geofence.GEOFENCE_TRANSITION_DWELL -> {
                 Toast.makeText(context, "GEOFENCE_TRANSITION_DWELL", Toast.LENGTH_SHORT).show()
-                notificationHelper.sendHighPriorityNotification("Fundoo notes geofence reminder!","GEOFENCE_TRANSITION_DWELL",MapsActivity::class.java)
+                notificationHelper.sendHighPriorityNotification("Fundoo Notes geofence reminder!","GEOFENCE_TRANSITION_DWELL",MapsActivity::class.java)
             }
             Geofence.GEOFENCE_TRANSITION_EXIT -> {
                 Toast.makeText(context, "GEOFENCE_TRANSITION_EXIT", Toast.LENGTH_SHORT).show()
-                notificationHelper.sendHighPriorityNotification("Fundoo notes geofence reminder!","GEOFENCE_TRANSITION_EXIT",MapsActivity::class.java)
+                notificationHelper.sendHighPriorityNotification("Fundoo Notes geofence reminder!","GEOFENCE_TRANSITION_EXIT",MapsActivity::class.java)
             }
         }
     }

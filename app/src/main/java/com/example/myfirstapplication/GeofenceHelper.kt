@@ -18,21 +18,21 @@ class GeofenceHelper(base: Context) : ContextWrapper(base) {   //ContextWrapper 
 
     fun getGeofencingRequest(geofence: Geofence): GeofencingRequest {    //Method returing GeofencingRequest
         return GeofencingRequest.Builder()
-            .addGeofence(geofence) // you can either add single geofence or list of geofence
+            .addGeofences(listOf(geofence)) // you can either add single geofence or list of geofence
                 /*if you are already inside a geofence that you created , then whether this geofence should be
                 triggred or not (INITIAL_TRIGGER_ENTER - in this case it will be triggred */
             .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
             .build()
     }
 
-    fun getGeofence(ID: String, latLng: LatLng, radius: Float, transitionTypes: Int): Geofence {  //Method returing GeofencingResult
+    fun getGeofence(ID: String, latLng: LatLng, radius: Float, transitionTypes: Int): Geofence? {  //Method returing GeofencingResult
         return Geofence.Builder()
             .setCircularRegion(latLng.latitude, latLng.longitude, radius)
             .setRequestId(ID)  //ID is unique for each Geofence you create
             .setTransitionTypes(transitionTypes)  //enter , dwell , exit
             /*setLoiteringDelay-after entring the geofence , how many you seconds you want to be notified that you are dwelling
              in the geofence*/
-            .setLoiteringDelay(5000)
+            .setLoiteringDelay(3000)
             .setExpirationDuration(Geofence.NEVER_EXPIRE) //NEVER_EXPIRE - dont want geofence to expire
             .build()
     }

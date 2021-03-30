@@ -15,6 +15,7 @@ import com.example.myfirstapplication.GeofenceHelper
 import com.example.myfirstapplication.R
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingClient
+import com.google.android.gms.location.GeofencingRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -25,13 +26,14 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLongClickListener, GoogleMap.OnMapClickListener {
 
     private lateinit var mMap: GoogleMap
     private lateinit var geofencingClient: GeofencingClient
     private  var FINE_LOCATION_ACCESS_REQUEST_CODE = 10001
+    private  var COARSE_LOCATION_ACCESS_REQUEST_CODE = 10005
 
-    private val GEOFENCE_RADIUS = 50f
+    private val GEOFENCE_RADIUS = 60f
 
     private var geofenceHelper: GeofenceHelper? = null
 
@@ -69,6 +71,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
         enableUserLocation()
 
         mMap.setOnMapLongClickListener(this)
+
+        mMap.setOnMapClickListener(this)
     }
 
     private fun enableUserLocation() {
@@ -81,9 +85,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
                 //we need to show user a dialog why permission is needed
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                     FINE_LOCATION_ACCESS_REQUEST_CODE)
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
+                    COARSE_LOCATION_ACCESS_REQUEST_CODE)
             } else {
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                     FINE_LOCATION_ACCESS_REQUEST_CODE)
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
+                    COARSE_LOCATION_ACCESS_REQUEST_CODE)
             }
         }
     }
@@ -125,7 +133,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
             //we need background permission
             if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_BACKGROUND_LOCATION) ==
                     PackageManager.PERMISSION_GRANTED) {
-                mMap.clear()
                 addMarker(latLng)
                 addCircle(latLng,GEOFENCE_RADIUS)
                 addGeofence(latLng,GEOFENCE_RADIUS)
@@ -141,7 +148,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
                 }
             }
         }else{
-            mMap.clear()
             addMarker(latLng)
             addCircle(latLng,GEOFENCE_RADIUS)
             addGeofence(latLng,GEOFENCE_RADIUS)
@@ -154,7 +160,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
             Geofence.GEOFENCE_TRANSITION_ENTER or Geofence.GEOFENCE_TRANSITION_DWELL
                             or Geofence.GEOFENCE_TRANSITION_EXIT)
 
-        val geofencingRequest = geofenceHelper!!.getGeofencingRequest(geofence!!)
+        val geofencingRequest : GeofencingRequest = geofenceHelper!!.getGeofencingRequest(geofence!!)
 
         val pendingIntent : PendingIntent = geofenceHelper!!.pendingIntent()
 
@@ -181,9 +187,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
         val circleOptions = CircleOptions()
         circleOptions.center(latLng)
         circleOptions.radius(radius.toDouble())
-        circleOptions.strokeColor(Color.argb(190, 0, 0, 255))
+        circleOptions.strokeColor(Color.argb(55, 0, 0, 255))
         circleOptions.fillColor(Color.argb(45, 0, 0, 255))
         circleOptions.strokeWidth(4f)
         mMap.addCircle(circleOptions)
+    }
+
+    override fun onMapClick(p0: LatLng?) {
+        mMap.clear()
     }
 }
