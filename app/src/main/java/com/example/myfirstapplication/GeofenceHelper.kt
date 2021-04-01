@@ -18,7 +18,7 @@ class GeofenceHelper(base: Context) : ContextWrapper(base) {   //ContextWrapper 
 
     fun getGeofencingRequest(geofence: Geofence): GeofencingRequest {    //Method returing GeofencingRequest
         return GeofencingRequest.Builder()
-            .addGeofences(listOf(geofence)) // you can either add single geofence or list of geofence
+            .addGeofences(mutableListOf(geofence)) // you can either add single geofence or list of geofence
                 /*if you are already inside a geofence that you created , then whether this geofence should be
                 triggred or not (INITIAL_TRIGGER_ENTER - in this case it will be triggred */
             .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)

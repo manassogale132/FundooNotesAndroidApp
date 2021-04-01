@@ -1,6 +1,7 @@
 package com.example.myfirstapplication.Activities
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -31,14 +32,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
     private lateinit var mMap: GoogleMap
     private lateinit var geofencingClient: GeofencingClient
     private  var FINE_LOCATION_ACCESS_REQUEST_CODE = 10001
-    private  var COARSE_LOCATION_ACCESS_REQUEST_CODE = 10005
 
-    private val GEOFENCE_RADIUS = 60f
+    private val GEOFENCE_RADIUS = 70f
 
     private var geofenceHelper: GeofenceHelper? = null
 
-
-    private val GEOFENCE_ID = "SOME_GEOFENCE_ID"
+    //private val GEOFENCE_ID = "SOME_GEOFENCE_ID"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,33 +84,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
                 //we need to show user a dialog why permission is needed
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                     FINE_LOCATION_ACCESS_REQUEST_CODE)
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
-                    COARSE_LOCATION_ACCESS_REQUEST_CODE)
             } else {
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                     FINE_LOCATION_ACCESS_REQUEST_CODE)
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
-                    COARSE_LOCATION_ACCESS_REQUEST_CODE)
             }
         }
     }
 
+    @SuppressLint("MissingPermission")
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
 
         if(requestCode == FINE_LOCATION_ACCESS_REQUEST_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 //we have the permission
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    return
-                }
                 mMap.isMyLocationEnabled = true
             }else{
 
@@ -154,14 +139,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
         }
     }
 
-    private fun addGeofence(latLng: LatLng, radius : Float){  //to add geofence ,calling the methods from "GeofenceHelper"
+    private fun addGeofence(latLng: LatLng, radius : Float) {  //to add geofence ,calling the methods from "GeofenceHelper"
 
-        val geofence : Geofence? = geofenceHelper?.getGeofence(GEOFENCE_ID, latLng, radius,
+        val current = System.currentTimeMillis() / 1000
+        val geofenceId = current.toString()
+
+        val geofence : Geofence? = geofenceHelper?.getGeofence(geofenceId, latLng, radius,
             Geofence.GEOFENCE_TRANSITION_ENTER or Geofence.GEOFENCE_TRANSITION_DWELL
                             or Geofence.GEOFENCE_TRANSITION_EXIT)
 
-        val geofencingRequest : GeofencingRequest = geofenceHelper!!.getGeofencingRequest(geofence!!)
+        Log.d("geofenceId", "onSuccess: $geofenceId")
 
+        val geofencingRequest : GeofencingRequest = geofenceHelper!!.getGeofencingRequest(geofence!!)
+5
         val pendingIntent : PendingIntent = geofenceHelper!!.pendingIntent()
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -194,6 +184,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
     }
 
     override fun onMapClick(p0: LatLng?) {
+        val pendingIntent : PendingIntent = geofenceHelper!!.pendingIntent()
+
         mMap.clear()
+        geofencingClient.removeGeofences(pendingIntent)
+            .addOnSuccessListener {
+                Log.d("GeofenceCheck", "onSuccess: Geofence Removed")
+            }
+            .addOnFailureListener{
+                val errorMessage = geofenceHelper!!.getErrorString(it)
+                Log.d("GeofenceCheck", "onFailure: $errorMessage")
+            }
     }
 }
