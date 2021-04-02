@@ -64,7 +64,15 @@
         </activity>
         <activity android:name=".Activities.LoginActivity" />
         <activity android:name=".Activities.RegistrationActivity" />
-        <activity android:name=".Activities.DashboardActivity" />
+        <activity android:name=".Activities.DashboardActivity" >
+            <intent-filter tools:ignore="AppLinkUrlError">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="http"
+                    android:host="www.deeplinktest.com"/>
+            </intent-filter>
+        </activity>
 
         <service
             android:name=".MyFirebaseMessagingService"

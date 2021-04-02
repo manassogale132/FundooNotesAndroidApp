@@ -1,6 +1,7 @@
 package com.example.myfirstapplication.Activities
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -32,6 +33,13 @@ class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
+
+        var uri : Uri? = intent.data
+        if(uri != null) {
+            var params: List<String> = uri!!.pathSegments
+            var id: String = params.get(params.size - 1)
+            Toast.makeText(baseContext, "ID = $id", Toast.LENGTH_SHORT).show()
+        }
 
         auth = FirebaseAuth.getInstance()
         val currentUser = auth.currentUser
